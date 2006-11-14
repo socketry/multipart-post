@@ -1,0 +1,7 @@
+lib/composite_io.rb
+lib/net/http/post/multipart.rb
+Manifest.txt
+Rakefile
+README.txt
+test/composite_io_test.rb
+test/net/http/post/multipart_test.rb
