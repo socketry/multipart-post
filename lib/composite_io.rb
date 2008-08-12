@@ -54,5 +54,6 @@ module UploadIO # :nodoc:
         "#{local_path}"
       end
     EOS
+    io
   end
 end
