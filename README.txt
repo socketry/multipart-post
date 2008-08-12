@@ -1,6 +1,6 @@
 = multipart-post
 
-* http://svn.caldersphere.net/svn/main/multipart-post
+* http://github.com/nicksieger/multipart-post
 
 == DESCRIPTION:
 
