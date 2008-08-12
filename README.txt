@@ -17,12 +17,12 @@ let me know!
     require 'net/http/post/multipart'
 
     url = URI.parse('http://www.example.com/upload')
-    req = File.open("./image.jpg") do |jpg|
-      Net::HTTP::Post::Multipart.new(url.path, {
+    File.open("./image.jpg") do |jpg|
+      req = Net::HTTP::Post::Multipart.new(url.path, {
         "file" => UploadIO.convert!(jpg, "image/jpeg", "image.jpg", "./image.jpg")})
-    end
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.request(req)
+      res = Net::HTTP.start(url.host, url.port) do |http|
+        http.request(req)
+      end
     end
 
 == REQUIREMENTS:
