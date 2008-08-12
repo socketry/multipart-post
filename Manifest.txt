@@ -3,5 +3,5 @@ lib/net/http/post/multipart.rb
 Manifest.txt
 Rakefile
 README.txt
-test/composite_io_test.rb
-test/net/http/post/multipart_test.rb
+test/test_composite_io.rb
+test/net/http/post/test_multipart.rb
