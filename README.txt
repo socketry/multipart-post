@@ -33,8 +33,7 @@ None
 
 == INSTALL:
 
-rake package
-gem install pkg/multipart-form*.gem
+gem install multipart-post
 
 == LICENSE:
 
