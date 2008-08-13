@@ -1,3 +1,9 @@
+#--
+# (c) Copyright 2007-2008 Nick Sieger.
+# See the file README.txt included with the distribution for
+# software license details.
+#++
+
 require 'net/http/post/multipart'
 
 class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
@@ -36,7 +42,7 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     assert body =~ /1234567890/
     # ensure there is at least one boundary
     assert body =~ /^--#{boundary_regex}\r\n/
-    # ensure there is a closing boundary
+    # ensure there is an epilogue
     assert body =~ /^--#{boundary_regex}--\r\n/
     assert body =~ /text\/plain/
   end

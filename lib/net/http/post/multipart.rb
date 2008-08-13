@@ -1,19 +1,41 @@
+#--
+# (c) Copyright 2007-2008 Nick Sieger.
+# See the file README.txt included with the distribution for
+# software license details.
+#++
+
 require 'net/http'
 require 'stringio'
 require 'cgi'
 require 'composite_io'
 
-module Net
-  class HTTP
-    class Post
-      class ParamPart
-        def initialize(boundary, name, value)
-          @part = build_part(boundary, name, value)
-          @io = StringIO.new(@part)
+module Net #:nodoc:
+  class HTTP #:nodoc:
+    class Post #:nodoc:
+      module Part #:nodoc:
+        def self.new(boundary, name, value)
+          if value.respond_to? :content_type
+            FilePart.new(boundary, name, value)
+          else
+            ParamPart.new(boundary, name, value)
+          end
         end
 
         def length
           @part.length
+        end
+
+        def to_io
+          @io
+        end
+      end
+
+      # Represents a part to be filled with a string name/value pair.
+      class ParamPart
+        include Part
+        def initialize(boundary, name, value)
+          @part = build_part(boundary, name, value)
+          @io = StringIO.new(@part)
         end
 
         def build_part(boundary, name, value)
@@ -23,13 +45,12 @@ module Net
           part << "\r\n"
           part << "#{value}\r\n"
         end
-
-        def to_io
-          @io
-        end
       end
 
+      # Represents a part to be filled from file IO.
       class FilePart
+        include Part
+        attr_reader :length
         def initialize(boundary, name, io)
           @head = build_head(boundary, name, io.original_filename, io.content_type)
           file_length = if io.respond_to? :length
@@ -41,10 +62,6 @@ module Net
           @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new("\r\n"))
         end
 
-        def length
-          @length
-        end
-
         def build_head(boundary, name, filename, type)
           part = ''
           part << "--#{boundary}\r\n"
@@ -53,42 +70,27 @@ module Net
           part << "Content-Transfer-Encoding: binary\r\n"
           part << "\r\n"
         end
-
-        def to_io
-          @io
-        end
       end
 
-      class ClosingBoundary
+      # Represents the epilogue or closing boundary.
+      class EpiloguePart
+        include Part
         def initialize(boundary)
           @part = "--#{boundary}--\r\n"
           @io = StringIO.new(@part)
-        end
-        def length
-          @part.length
-        end
-        def to_io
-          @io
-        end
-      end
-
-      class Part
-        def self.new(boundary, name, value)
-          if value.respond_to? :content_type
-            FilePart.new(boundary, name, value)
-          else
-            ParamPart.new(boundary, name, value)
-          end
         end
       end
 
       DEFAULT_BOUNDARY = "-----------RubyMultipartPost"
 
+      # Extension to the Net::HTTP::Post class that builds a post body
+      # consisting of a multipart mime stream based on the parameters given.
+      # See README.txt for synopsis and details.
       class Multipart < Post
         def initialize(path, params, boundary = DEFAULT_BOUNDARY)
           super(path)
           parts = params.map {|k,v| Part.new(boundary, k, v)}
-          parts << ClosingBoundary.new(boundary)
+          parts << EpiloguePart.new(boundary)
           ios = parts.map{|p| p.to_io }
           self.set_content_type("multipart/form-data", { "boundary" => boundary })
           self.content_length = parts.inject(0) {|sum,i| sum + i.length }

@@ -8,9 +8,11 @@ Adds a multipart form post capability to Net::HTTP.
 
 == FEATURES/PROBLEMS:
 
-I wrote this a while ago and never ended up using it. It appears to work,
-but I don't know for sure. If you find any bugs or improvements, please 
-let me know!
+* Appears to actually work. A good feature to have.
+* Encapsulates posting of file/binary parts and name/value parameter parts, similar to 
+  most browsers' file upload forms.
+* Provides an UploadIO helper module to prepare IO objects for inclusion in the params
+  hash of the multipart post object.
 
 == SYNOPSIS:
 
@@ -18,8 +20,8 @@ let me know!
 
     url = URI.parse('http://www.example.com/upload')
     File.open("./image.jpg") do |jpg|
-      req = Net::HTTP::Post::Multipart.new(url.path, {
-        "file" => UploadIO.convert!(jpg, "image/jpeg", "image.jpg", "./image.jpg")})
+      req = Net::HTTP::Post::Multipart.new url.path,
+        "file" => UploadIO.new(jpg, "image/jpeg", "image.jpg")
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.request(req)
       end
@@ -31,6 +33,8 @@ None
 
 == INSTALL:
 
+rake package
+gem install pkg/multipart-form*.gem
 
 == LICENSE:
 
