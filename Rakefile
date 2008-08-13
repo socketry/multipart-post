@@ -3,7 +3,7 @@ require 'rubygems'
 require 'hoe'
 
 hoe = Hoe.new("multipart-post", '0.1') do |p|
-  p.rubyforge_name = "multipart-post"
+  p.rubyforge_name = "caldersphere"
   p.author = "Nick Sieger"
   p.url = "http://github.com/nicksieger/multipart-post"
   p.email = "nick@nicksieger.com"
