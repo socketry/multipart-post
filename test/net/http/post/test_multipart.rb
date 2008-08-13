@@ -32,7 +32,12 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     assert post.body_stream
     assert_equal "multipart/form-data; boundary=#{Net::HTTP::Post::DEFAULT_BOUNDARY}", post['content-type']
     body = post.body_stream.read
+    boundary_regex = Regexp.quote Net::HTTP::Post::DEFAULT_BOUNDARY
     assert body =~ /1234567890/
+    # ensure there is at least one boundary
+    assert body =~ /^--#{boundary_regex}\r\n/
+    # ensure there is a closing boundary
+    assert body =~ /^--#{boundary_regex}--\r\n/
     assert body =~ /text\/plain/
   end
 end
