@@ -1,4 +1,4 @@
-require 'lib/parts'
+require 'parts'
   module Multipartable
     DEFAULT_BOUNDARY = "-----------RubyMultipartPost"
     def initialize(path, params, boundary = DEFAULT_BOUNDARY)
