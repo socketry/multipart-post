@@ -1,3 +1,5 @@
 doc
 pkg
-.*\~
+*~
+*.swo
+*.swp

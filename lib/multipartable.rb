@@ -1,8 +1,8 @@
 require 'parts'
   module Multipartable
     DEFAULT_BOUNDARY = "-----------RubyMultipartPost"
-    def initialize(path, params, boundary = DEFAULT_BOUNDARY)
-      super(path)
+    def initialize(path, params, headers={}, boundary = DEFAULT_BOUNDARY)
+      super(path, headers)
       parts = params.map {|k,v| Parts::Part.new(boundary, k, v)}
       parts << Parts::EpiloguePart.new(boundary)
       ios = parts.map{|p| p.to_io }
