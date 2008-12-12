@@ -1,4 +1,6 @@
 lib/composite_io.rb
+lib/multipartable.rb
+lib/parts.rb
 lib/net/http/post/multipart.rb
 Manifest.txt
 Rakefile
