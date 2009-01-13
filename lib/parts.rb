@@ -38,20 +38,17 @@ module Parts
     include Part
     attr_reader :length
     def initialize(boundary, name, io)
-      @head = build_head(boundary, name, io.original_filename, io.content_type)
-      file_length = if io.respond_to? :length
-                      io.length
-                    else
-                      File.size(io.local_path)
-                    end
+      file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
+      @head = build_head(boundary, name, io.original_filename, io.content_type, file_length)
       @length = @head.length + file_length
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new("\r\n"))
     end
 
-    def build_head(boundary, name, filename, type)
+    def build_head(boundary, name, filename, type, content_len)
       part = ''
       part << "--#{boundary}\r\n"
       part << "Content-Disposition: form-data; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
+      part << "Content-Length: #{content_len}\r\n"
       part << "Content-Type: #{type}\r\n"
       part << "Content-Transfer-Encoding: binary\r\n"
       part << "\r\n"
