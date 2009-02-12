@@ -2,7 +2,9 @@ begin
 require 'rubygems'
 require 'hoe'
 
-hoe = Hoe.new("multipart-post", '0.1') do |p|
+require 'lib/multipart_post'
+
+hoe = Hoe.new("multipart-post", MultipartPost::VERSION) do |p|
   p.rubyforge_name = "caldersphere"
   p.author = "Nick Sieger"
   p.url = "http://github.com/nicksieger/multipart-post"
