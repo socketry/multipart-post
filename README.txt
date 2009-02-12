@@ -4,7 +4,8 @@
 
 == DESCRIPTION:
 
-Adds a multipart form post capability to Net::HTTP.
+Adds a streamy multipart form post capability to Net::HTTP. Also
+supports other methods besides POST.
 
 == FEATURES/PROBLEMS:
 
