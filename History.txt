@@ -1,3 +1,7 @@
+=== 1.0.1 / 2010-04-27
+
+- Doc updates, make gemspec based on more modern Rubygems
+
 === 1.0 / 2009-02-12
 
 - Many fixes from mlooney, seems to work now. Putting the 0.9 seal of
