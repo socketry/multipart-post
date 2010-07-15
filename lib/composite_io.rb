@@ -1,5 +1,5 @@
 #--
-# (c) Copyright 2007-2008 Nick Sieger.
+# (c) Copyright 2007-2010 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++
@@ -61,11 +61,16 @@ module UploadIO
   #     UploadIO.new(file_io, "text/plain", "file.txt")
   def self.new(filename_or_io, content_type, filename = nil)
     io = filename_or_io
-    unless io.respond_to? :read
+    local_path = ""
+    if io.respond_to? :read
+      local_path = filename_or_io.path
+    else
       io = File.open(filename_or_io)
-      filename = filename_or_io
+      local_path = filename_or_io
     end
-    convert!(io, content_type, File.basename(filename), filename)
+    filename ||= local_path
+
+    convert!(io, content_type, File.basename(filename), local_path)
     io
   end
 
