@@ -13,7 +13,7 @@ begin
     p.description = "Use with Net::HTTP to do multipart form posts.  IO values that have #content_type, #original_filename, and #local_path will be posted as a binary file."
     p.summary = "Creates a multipart form post accessory for Net::HTTP."
   end
-  hoe.spec.dependencies.delete_if { |dep| dep.name == "hoe" }
+  hoe.spec.dependencies.delete_if { |dep| dep.name == "hoe" || dep.name == "rubyforge" }
 
   task :gemspec do
     File.open("#{hoe.name}.gemspec", "w") {|f| f << hoe.spec.to_ruby }
