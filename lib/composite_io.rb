@@ -32,6 +32,7 @@ class CompositeReadIO
         @ios.shift
       end
 
+      result.force_encoding("BINARY") if result.respond_to?(:force_encoding)
       buffer << result if result
       partial_amount -= result.length if partial_amount && result != done
 

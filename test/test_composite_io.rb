@@ -11,6 +11,16 @@ class CompositeReadIOTest < Test::Unit::TestCase
   def test_full_read_from_several_ios
     assert_equal 'the quick brown fox', @io.read
   end
+
+  unless  RUBY_VERSION < '1.9'
+    def test_read_from_multibyte
+      utf8    = File.open(File.dirname(__FILE__)+'/multibyte.txt')
+      binary  = StringIO.new("\x86")
+      @io = CompositeReadIO.new(binary,utf8)
+      assert_equal "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n", @io.read
+    end
+  end
+  
   
   def test_partial_read
     assert_equal 'the quick', @io.read(9)
