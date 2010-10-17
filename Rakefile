@@ -1,7 +1,8 @@
+require 'bundler'
+Bundler.setup
 begin
-  require 'rubygems'
   require 'hoe'
-  require 'lib/multipart_post'
+  require 'multipart_post'
 
   Hoe.plugin :gemcutter
   hoe = Hoe.spec("multipart-post") do |p|
@@ -19,6 +20,6 @@ begin
     File.open("#{hoe.name}.gemspec", "w") {|f| f << hoe.spec.to_ruby }
   end
   task :package => :gemspec
-rescue LoadError
+rescue LoadError 
   puts "You really need Hoe installed to be able to package this gem"
 end
