@@ -35,6 +35,7 @@ GEM
       json_pure (>= 1.1.7)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
