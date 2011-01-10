@@ -49,7 +49,7 @@ class CompositeReadIO
 end
 
 # Convenience methods for dealing with files and IO that are to be uploaded.
-module UploadIO
+class UploadIO
   # Create an upload IO suitable for including in the params hash of a
   # Net::HTTP::Post::Multipart.
   #
@@ -60,7 +60,9 @@ module UploadIO
   #
   #     UploadIO.new("file.txt", "text/plain")
   #     UploadIO.new(file_io, "text/plain", "file.txt")
-  def self.new(filename_or_io, content_type, filename = nil)
+  attr_reader :content_type, :original_filename, :local_path, :io
+
+  def initialize(filename_or_io, content_type, filename = nil)
     io = filename_or_io
     local_path = ""
     if io.respond_to? :read
@@ -71,25 +73,17 @@ module UploadIO
     end
     filename ||= local_path
 
-    convert!(io, content_type, File.basename(filename), local_path)
-    io
+    @content_type = content_type
+    @original_filename = File.basename(filename)
+    @local_path = local_path
+    @io = io
   end
 
-  # Enhance an existing IO for including in the params hash of a
-  # Net::HTTP::Post::Multipart by adding #content_type, #original_filename,
-  # and #local_path methods to the object's singleton class.
-  def self.convert!(io, content_type, original_filename, local_path)
-    io.instance_eval(<<-EOS, __FILE__, __LINE__)
-      def content_type
-        "#{content_type}"
-      end
-      def original_filename
-        "#{original_filename}"
-      end
-      def local_path
-        "#{local_path}"
-      end
-    EOS
-    io
+  def method_missing(*args)
+    @io.send(*args)
+  end
+
+  def respond_to?(meth)
+    @io.respond_to?(meth) || super(meth)
   end
 end

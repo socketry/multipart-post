@@ -23,19 +23,19 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
   def test_form_multipart_body
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    UploadIO.convert! @io, "text/plain", TEMP_FILE, TEMP_FILE
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
   def test_form_multipart_body_put
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    UploadIO.convert! @io, "text/plain", TEMP_FILE, TEMP_FILE
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Put::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
-  
+
   def test_form_multipart_body_with_stringio
     @io = StringIO.new("1234567890")
-    UploadIO.convert! @io, "text/plain", TEMP_FILE, TEMP_FILE
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 

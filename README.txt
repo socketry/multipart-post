@@ -12,7 +12,7 @@ supports other methods besides POST.
 * Appears to actually work. A good feature to have.
 * Encapsulates posting of file/binary parts and name/value parameter parts, similar to 
   most browsers' file upload forms.
-* Provides an UploadIO helper module to prepare IO objects for inclusion in the params
+* Provides an UploadIO helper class to prepare IO objects for inclusion in the params
   hash of the multipart post object.
 
 == SYNOPSIS:
