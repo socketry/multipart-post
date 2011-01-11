@@ -1,5 +1,5 @@
 #--
-# (c) Copyright 2007-2010 Nick Sieger.
+# (c) Copyright 2007-2011 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++
@@ -77,6 +77,10 @@ class UploadIO
     @original_filename = File.basename(filename)
     @local_path = local_path
     @io = io
+  end
+
+  def self.convert!(io, content_type, original_filename, local_path)
+    raise ArgumentError, "convert! has been removed. You must now wrap IOs using:\nUploadIO.new(filename_or_io, content_type, filename=nil)\nPlease update your code."
   end
 
   def method_missing(*args)

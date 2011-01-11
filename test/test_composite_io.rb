@@ -57,4 +57,10 @@ class CompositeReadIOTest < Test::Unit::TestCase
     @io.read(32)
     assert_equal nil, @io.read(32)
   end
+
+  def test_convert_error
+    assert_raises(ArgumentError) {
+      UploadIO.convert!('tmp.txt', 'text/plain', 'tmp.txt', 'tmp.txt')
+    }
+  end
 end
