@@ -20,26 +20,26 @@ class CompositeReadIOTest < Test::Unit::TestCase
       assert_equal "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n", @io.read
     end
   end
-  
-  
+
+
   def test_partial_read
     assert_equal 'the quick', @io.read(9)
   end
-  
+
   def test_partial_read_to_boundary
-    assert_equal 'the quick ', @io.read(10)    
+    assert_equal 'the quick ', @io.read(10)
   end
-  
+
   def test_read_with_size_larger_than_available
     assert_equal 'the quick brown fox', @io.read(32)
   end
-  
+
   def test_read_into_buffer
     buf = ''
     @io.read(nil, buf)
     assert_equal 'the quick brown fox', buf
   end
-  
+
   def test_multiple_reads
     assert_equal 'the ', @io.read(4)
     assert_equal 'quic', @io.read(4)
@@ -47,7 +47,7 @@ class CompositeReadIOTest < Test::Unit::TestCase
     assert_equal 'own ', @io.read(4)
     assert_equal 'fox',  @io.read(4)
   end
-  
+
   def test_read_after_end
     @io.read
     assert_equal "", @io.read
