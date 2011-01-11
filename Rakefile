@@ -1,5 +1,5 @@
-require 'bundler'
-Bundler.setup
+require 'bundler/setup'
+
 begin
   require 'hoe'
   require 'multipart_post'

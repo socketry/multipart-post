@@ -1,3 +1,8 @@
+=== 1.1.0 / 2011-01-11
+
+- API CHANGE: UploadIO.convert! removed in favor of UploadIO.new
+  (Jeff Hodges)
+
 === 1.0.1 / 2010-04-27
 
 - Doc updates, make gemspec based on more modern Rubygems
