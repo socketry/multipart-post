@@ -4,7 +4,7 @@ begin
   require 'hoe'
   require 'multipart_post'
 
-  Hoe.plugin :gemcutter
+  Hoe.plugin :rubyforge
   hoe = Hoe.spec("multipart-post") do |p|
     p.version = MultipartPost::VERSION
     p.rubyforge_name = "caldersphere"
@@ -20,6 +20,6 @@ begin
     File.open("#{hoe.name}.gemspec", "w") {|f| f << hoe.spec.to_ruby }
   end
   task :package => :gemspec
-rescue LoadError 
+rescue LoadError
   puts "You really need Hoe installed to be able to package this gem"
 end

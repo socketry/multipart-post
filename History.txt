@@ -1,3 +1,7 @@
+=== 1.1.1 / 2001-05-13
+
+- GH# 9: Fixed Ruby 1.9.2 StringIO bug (thanks Alex Koppel)
+
 === 1.1.0 / 2011-01-11
 
 - API CHANGE: UploadIO.convert! removed in favor of UploadIO.new
