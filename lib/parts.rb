@@ -59,7 +59,7 @@ module Parts
   class EpiloguePart
     include Part
     def initialize(boundary)
-      @part = "--#{boundary}--\r\n"
+      @part = "--#{boundary}--\r\n\r\n"
       @io = StringIO.new(@part)
     end
   end
