@@ -40,8 +40,9 @@ module Parts
     def initialize(boundary, name, io)
       file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
       @head = build_head(boundary, name, io.original_filename, io.content_type, file_length)
-      @length = @head.length + file_length
-      @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new("\r\n"))
+      @foot = "\r\n"
+      @length = @head.length + file_length + @foot.length
+      @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 
     def build_head(boundary, name, filename, type, content_len)
