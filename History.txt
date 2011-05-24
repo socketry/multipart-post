@@ -1,4 +1,9 @@
-=== 1.1.1 / 2001-05-13
+=== 1.1.2 / 2011-05-24
+
+- Fix CRLF file part miscalculation (Johannes Wagener)
+- Fix Epilogue CRLF issue (suggestion by Neil Spring)
+
+=== 1.1.1 / 2011-05-13
 
 - GH# 9: Fixed Ruby 1.9.2 StringIO bug (thanks Alex Koppel)
 
