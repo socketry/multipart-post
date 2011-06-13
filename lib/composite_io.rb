@@ -54,12 +54,18 @@ class UploadIO
   # Net::HTTP::Post::Multipart.
   #
   # Can take two forms. The first accepts a filename and content type, and
-  # opens the file for reading (to be closed by finalizer). The second accepts
-  # an already-open IO, but also requires a third argument, the filename from
-  # which it was opened.
+  # opens the file for reading (to be closed by finalizer).
+  #
+  # The second accepts an already-open IO, but also requires a third argument,
+  # the filename from which it was opened (particularly useful/recommended if
+  # uploading directly from a form in a framework, which often save the file to
+  # an arbitrarily named RackMultipart file in /tmp).
+  #
+  # Usage:
   #
   #     UploadIO.new("file.txt", "text/plain")
   #     UploadIO.new(file_io, "text/plain", "file.txt")
+  #
   attr_reader :content_type, :original_filename, :local_path, :io
 
   def initialize(filename_or_io, content_type, filename = nil)
