@@ -11,7 +11,7 @@
 #
 #     crio = CompositeReadIO.new(StringIO.new('one'), StringIO.new('two'), StringIO.new('three'))
 #     puts crio.read # => "onetwothree"
-#  
+#
 class CompositeReadIO
   # Create a new composite-read IO from the arguments, all of which should
   # respond to #read in a manner consistent with IO.
@@ -66,9 +66,9 @@ class UploadIO
   #     UploadIO.new("file.txt", "text/plain")
   #     UploadIO.new(file_io, "text/plain", "file.txt")
   #
-  attr_reader :content_type, :original_filename, :local_path, :io
+  attr_reader :content_type, :original_filename, :local_path, :io, :opts
 
-  def initialize(filename_or_io, content_type, filename = nil)
+  def initialize(filename_or_io, content_type, filename = nil, opts = {})
     io = filename_or_io
     local_path = ""
     if io.respond_to? :read
@@ -85,6 +85,7 @@ class UploadIO
     @original_filename = File.basename(filename)
     @local_path = local_path
     @io = io
+    @opts = opts
   end
 
   def self.convert!(io, content_type, original_filename, local_path)
