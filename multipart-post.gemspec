@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{multipart-post}
-  s.version = "1.1.2"
+  s.version = "1.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nick Sieger"]
-  s.date = %q{2011-05-24}
+  s.date = %q{2011-07-25}
   s.description = %q{Use with Net::HTTP to do multipart form posts.  IO values that have #content_type, #original_filename, and #local_path will be posted as a binary file.}
   s.email = %q{nick@nicksieger.com}
   s.extra_rdoc_files = ["Manifest.txt", "README.txt"]
