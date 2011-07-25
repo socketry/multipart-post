@@ -39,19 +39,26 @@ module Parts
     attr_reader :length
     def initialize(boundary, name, io)
       file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
-      @head = build_head(boundary, name, io.original_filename, io.content_type, file_length)
+      @head = build_head(boundary, name, io.original_filename, io.content_type, file_length,
+                         io.respond_to?(:opts) ? io.opts : {})
       @foot = "\r\n"
       @length = @head.length + file_length + @foot.length
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 
-    def build_head(boundary, name, filename, type, content_len)
+    def build_head(boundary, name, filename, type, content_len, opts = {})
+      trans_encoding = opts["Content-Transfer-Encoding"] || "binary"
+      content_disposition = opts["Content-Disposition"] || "form-data"
+
       part = ''
       part << "--#{boundary}\r\n"
-      part << "Content-Disposition: form-data; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
+      part << "Content-Disposition: #{content_disposition}; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
       part << "Content-Length: #{content_len}\r\n"
+      if content_id = opts["Content-ID"]
+        part << "Content-ID: #{content_id}\r\n"
+      end
       part << "Content-Type: #{type}\r\n"
-      part << "Content-Transfer-Encoding: binary\r\n"
+      part << "Content-Transfer-Encoding: #{trans_encoding}\r\n"
       part << "\r\n"
     end
   end
