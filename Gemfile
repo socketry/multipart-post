@@ -1,6 +1,5 @@
 source :rubygems
 gemspec
-gem 'hoe'
 
 platforms :mri_19 do
   gem 'ruby-debug19'

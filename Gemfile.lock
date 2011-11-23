@@ -8,14 +8,9 @@ GEM
   specs:
     archive-tar-minitar (0.5.2)
     columnize (0.3.1)
-    hoe (2.6.2)
-      rake (>= 0.8.7)
-      rubyforge (>= 2.0.4)
-    json_pure (1.4.6)
     linecache (0.43)
     linecache19 (0.5.11)
       ruby_core_source (>= 0.1.4)
-    rake (0.8.7)
     ruby-debug (0.10.3)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.3.0)
@@ -31,15 +26,12 @@ GEM
       ruby-debug-base19 (>= 0.11.19)
     ruby_core_source (0.1.4)
       archive-tar-minitar (>= 0.5.2)
-    rubyforge (2.0.4)
-      json_pure (>= 1.1.7)
 
 PLATFORMS
   java
   ruby
 
 DEPENDENCIES
-  hoe
   multipart-post!
   ruby-debug
   ruby-debug19
