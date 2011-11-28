@@ -24,12 +24,13 @@ class CompositeReadIO
     buffer = buf || ''
     done = if amount; nil; else ''; end
     partial_amount = amount
+    parts = @ios.dup
 
     loop do
       result = done
 
-      while !@ios.empty? && (result = @ios.first.read(partial_amount)) == done
-        @ios.shift
+      while !parts.empty? && (result = parts.first.read(partial_amount)) == done
+        parts.shift
       end
 
       result.force_encoding("BINARY") if result.respond_to?(:force_encoding)
@@ -45,6 +46,10 @@ class CompositeReadIO
     else
       done
     end
+  end
+  
+  def rewind
+    @ios.each { |io| io.rewind }
   end
 end
 
