@@ -9,3 +9,6 @@ platforms :mri_18 do
   gem 'ruby-debug'
 end
 
+group :development, :test do
+  gem 'rake'
+end
