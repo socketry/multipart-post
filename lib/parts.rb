@@ -24,6 +24,10 @@ module Parts
       @io = StringIO.new(@part)
     end
 
+    def length
+     @part.bytesize
+    end 
+
     def build_part(boundary, name, value)
       part = ''
       part << "--#{boundary}\r\n"
