@@ -5,6 +5,7 @@
 #++
 
 require 'net/http/post/multipart'
+require 'test/unit'
 
 class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
   TEMP_FILE = "temp.txt"
