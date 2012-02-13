@@ -35,6 +35,7 @@ module Parts
     end 
 
     def build_part(boundary, name, value)
+      value.force_encoding('BINARY') if value.respond_to?(:force_encoding)
       part = ''
       part << "--#{boundary}\r\n"
       part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
