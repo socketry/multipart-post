@@ -6,11 +6,12 @@
 
 module Parts
   module Part #:nodoc:
-    def self.new(boundary, name, value)
+    def self.new(boundary, name, value, headers = {})
+      headers ||= {} # avoid nil values
       if value.respond_to? :content_type
-        FilePart.new(boundary, name, value)
+        FilePart.new(boundary, name, value, headers)
       else
-        ParamPart.new(boundary, name, value)
+        ParamPart.new(boundary, name, value, headers)
       end
     end
 
@@ -25,19 +26,20 @@ module Parts
 
   class ParamPart
     include Part
-    def initialize(boundary, name, value)
-      @part = build_part(boundary, name, value)
+    def initialize(boundary, name, value, headers = {})
+      @part = build_part(boundary, name, value, headers)
       @io = StringIO.new(@part)
     end
 
     def length
      @part.bytesize
-    end 
+    end
 
-    def build_part(boundary, name, value)
+    def build_part(boundary, name, value, headers = {})
       part = ''
       part << "--#{boundary}\r\n"
       part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
+      part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
       part << "\r\n"
       part << "#{value}\r\n"
     end
@@ -47,10 +49,10 @@ module Parts
   class FilePart
     include Part
     attr_reader :length
-    def initialize(boundary, name, io)
+    def initialize(boundary, name, io, headers = {})
       file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
       @head = build_head(boundary, name, io.original_filename, io.content_type, file_length,
-                         io.respond_to?(:opts) ? io.opts : {})
+                         io.respond_to?(:opts) ? io.opts.merge(headers) : headers)
       @foot = "\r\n"
       @length = @head.length + file_length + @foot.length
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
