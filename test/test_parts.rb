@@ -34,7 +34,7 @@ class PartTest < Test::Unit::TestCase
   end
 
   def test_file_with_modified_string
-    refute Parts::Part.file?(@string_with_content_type.new("Hello"))
+    assert !Parts::Part.file?(@string_with_content_type.new("Hello"))
   end
 
   def test_new_with_modified_string
