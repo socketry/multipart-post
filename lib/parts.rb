@@ -7,7 +7,7 @@
 module Parts
   module Part #:nodoc:
     def self.new(boundary, name, value)
-      if value.respond_to? :content_type
+      if value.respond_to?(:content_type) && value.respond_to?(:original_filename)
         FilePart.new(boundary, name, value)
       else
         ParamPart.new(boundary, name, value)

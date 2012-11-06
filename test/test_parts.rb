@@ -22,6 +22,16 @@ module AssertPartLength
   end
 end
 
+class PartTest < Test::Unit::TestCase
+  def test_with_modified_string
+    mime = Class.new(String) do
+      def content_type; 'application/data'; end
+    end
+
+    assert_kind_of Parts::ParamPart, Parts::Part.new("boundary", "multibyte", mime.new("Hello"))
+  end
+end
+
 class FilePartTest < Test::Unit::TestCase
   include AssertPartLength
 
