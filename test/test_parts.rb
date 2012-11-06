@@ -22,6 +22,27 @@ module AssertPartLength
   end
 end
 
+class PartTest < Test::Unit::TestCase
+  def setup
+    @string_with_content_type = Class.new(String) do
+      def content_type; 'application/data'; end
+    end
+  end
+
+  def test_file_with_upload_io
+    assert Parts::Part.file?(UploadIO.new(__FILE__, "text/plain"))
+  end
+
+  def test_file_with_modified_string
+    assert !Parts::Part.file?(@string_with_content_type.new("Hello"))
+  end
+
+  def test_new_with_modified_string
+    assert_kind_of Parts::ParamPart,
+      Parts::Part.new("boundary", "multibyte", @string_with_content_type.new("Hello"))
+  end
+end
+
 class FilePartTest < Test::Unit::TestCase
   include AssertPartLength
 
