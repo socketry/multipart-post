@@ -52,7 +52,7 @@ module Parts
       @head = build_head(boundary, name, io.original_filename, io.content_type, file_length,
                          io.respond_to?(:opts) ? io.opts : {})
       @foot = "\r\n"
-      @length = @head.length + file_length + @foot.length
+      @length = @head.bytesize + file_length + @foot.length
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 

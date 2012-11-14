@@ -9,6 +9,7 @@ require 'test/unit'
 require 'parts'
 require 'stringio'
 require 'composite_io'
+require 'tempfile'
 
 
 MULTIBYTE = File.dirname(__FILE__)+'/multibyte.txt'
@@ -41,6 +42,12 @@ class FilePartTest < Test::Unit::TestCase
 
   def test_multibyte_file_length
     assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(MULTIBYTE, "text/plain"))
+  end
+
+  def test_multibyte_filename
+    file = Tempfile.new(File.readlines(MULTIBYTE, 1))
+    assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(file, "text/plain"))
+    file.close
   end
 end
 
