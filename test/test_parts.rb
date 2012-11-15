@@ -45,7 +45,8 @@ class FilePartTest < Test::Unit::TestCase
   end
 
   def test_multibyte_filename
-    file = Tempfile.new(File.readlines(MULTIBYTE, 1))
+    name = File.read(MULTIBYTE, 300)
+    file = Tempfile.new(name.respond_to?(:force_encoding) ? name.force_encoding("UTF-8") : name)
     assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(file, "text/plain"))
     file.close
   end
