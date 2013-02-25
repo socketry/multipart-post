@@ -7,6 +7,7 @@
 require 'composite_io'
 require 'stringio'
 require 'test/unit'
+require 'timeout'
 
 class CompositeReadIOTest < Test::Unit::TestCase
   def setup
@@ -23,7 +24,10 @@ class CompositeReadIOTest < Test::Unit::TestCase
       utf8    = File.open(File.dirname(__FILE__)+'/multibyte.txt')
       binary  = StringIO.new("\x86")
       @io = CompositeReadIO.new(binary,utf8)
-      assert_equal "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n", @io.read
+
+      expect  = "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n"
+      expect.force_encoding('BINARY') if expect.respond_to?(:force_encoding)
+      assert_equal expect, @io.read
     end
   end
 
@@ -73,5 +77,37 @@ class CompositeReadIOTest < Test::Unit::TestCase
     assert_raises(ArgumentError) {
       UploadIO.convert!('tmp.txt', 'text/plain', 'tmp.txt', 'tmp.txt')
     }
+  end
+
+  if IO.respond_to?(:copy_stream)
+    def test_compatible_with_copy_stream
+      target_io = StringIO.new
+      Timeout.timeout(1) do
+        IO.copy_stream(@io, target_io)
+      end
+      assert_equal "the quick brown fox", target_io.string
+    end
+  end
+
+  def test_empty
+    io = CompositeReadIO.new
+    assert_equal "", io.read
+  end
+
+  def test_empty_limited
+    io = CompositeReadIO.new
+    assert_nil io.read(1)
+  end
+
+  def test_empty_parts
+    io = CompositeReadIO.new(StringIO.new, StringIO.new('the '), StringIO.new, StringIO.new('quick'))
+    assert_equal "the", io.read(3)
+    assert_equal " qu", io.read(3)
+    assert_equal "ick", io.read(4)
+  end
+
+  def test_all_empty_parts
+    io = CompositeReadIO.new(StringIO.new, StringIO.new)
+    assert_nil io.read(1)
   end
 end
