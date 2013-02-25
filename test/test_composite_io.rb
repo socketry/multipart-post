@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2007-2012 Nick Sieger.
+# Copyright (c) 2007-2013 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++
@@ -79,7 +79,9 @@ class CompositeReadIOTest < Test::Unit::TestCase
     }
   end
 
-  if IO.respond_to?(:copy_stream)
+  ## FIXME excluding on JRuby due to
+  ## http://jira.codehaus.org/browse/JRUBY-7109
+  if IO.respond_to?(:copy_stream) && !defined?(JRUBY_VERSION)
     def test_compatible_with_copy_stream
       target_io = StringIO.new
       Timeout.timeout(1) do
