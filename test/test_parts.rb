@@ -1,3 +1,5 @@
+#encoding: UTF-8
+
 #--
 # Copyright (c) 2007-2012 Nick Sieger.
 # See the file README.txt included with the distribution for
@@ -37,6 +39,12 @@ class FilePartTest < Test::Unit::TestCase
 
   def test_correct_length
     assert_part_length @part
+  end
+
+  def test_multibyte_header_length
+    io =  UploadIO.new(TEMP_FILE, "text/plain")
+    @part = Parts::FilePart.new("boundary", "кузнецкий.jpg", io)
+    assert_equal @part.length, 191
   end
 
   def test_multibyte_file_length
