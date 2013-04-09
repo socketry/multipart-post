@@ -48,7 +48,7 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     part_headers = {:foo => { "Content-Type" => "application/json; charset=UTF-8" }}
     post =  Net::HTTP::Post::Multipart.new("/foo/bar", params, {}, Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY, part_headers)
     
-    assert assert post.content_length && post.content_length > 0
+    assert post.content_length && post.content_length > 0
     assert post.body_stream
 
     body = post.body_stream.read	
