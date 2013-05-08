@@ -28,6 +28,19 @@ supports other methods besides POST.
       end
     end
 
+To post multiple files or attachments, simply include multiple parameters with
+UploadIO values:
+
+    require 'net/http/post/multipart'
+
+    url = URI.parse('http://www.example.com/upload')
+    req = Net::HTTP::Post::Multipart.new url.path,
+      "file1" => UploadIO.new(File.new("./image.jpg"), "image/jpeg", "image.jpg"),
+      "file2" => UploadIO.new(File.new("./image2.jpg"), "image/jpeg", "image2.jpg")
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.request(req)
+    end
+
 == REQUIREMENTS:
 
 None
@@ -40,7 +53,7 @@ gem install multipart-post
 
 (The MIT License)
 
-Copyright (c) 2007-2012 Nick Sieger <nick@nicksieger.com>
+Copyright (c) 2007-2013 Nick Sieger <nick@nicksieger.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
