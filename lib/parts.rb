@@ -39,7 +39,7 @@ module Parts
       # Converts Arrays of objects correctly and not simply relying on to_s
       if value.is_a?(Array)
         value.each do |val|
-          part << build_part(boundary, name, val.to_s)
+          part << build_part(boundary, name, val.to_s, headers)
         end
       else
         part << "--#{boundary}\r\n"
