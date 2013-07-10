@@ -35,17 +35,19 @@ module Parts
     end 
 
     def build_part(boundary, name, value)
+      part = ''
       if value.is_a?(Array)
         value.each do |val|
-          build_part(boundary, name, val)
+          part << build_part(boundary, name, val.to_s)
         end
+        return part
       else
-        part = ''
         part << "--#{boundary}\r\n"
         part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
         part << "\r\n"
         part << "#{value}\r\n"
       end
+      return part
     end
   end
 
