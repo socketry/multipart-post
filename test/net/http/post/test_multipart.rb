@@ -40,6 +40,22 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 
+  def test_form_multipart_body_with_content_type
+    File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
+    @io = File.open(TEMP_FILE)
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    params = {:foo => 'bar', :file => @io}
+    part_headers = {:foo => { "Content-Type" => "application/json; charset=UTF-8" }}
+    post =  Net::HTTP::Post::Multipart.new("/foo/bar", params, {}, Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY, part_headers)
+    
+    assert post.content_length && post.content_length > 0
+    assert post.body_stream
+
+    body = post.body_stream.read	
+    #ensure the Content-Type has been added
+    assert body =~ /Content-Type: application\/json; charset=UTF-8/, body
+  end
+
   def assert_results(post)
     assert post.content_length && post.content_length > 0
     assert post.body_stream
