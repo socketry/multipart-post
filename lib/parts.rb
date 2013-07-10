@@ -36,11 +36,11 @@ module Parts
 
     def build_part(boundary, name, value)
       part = ''
+      # Converts Arrays of objects correctly and not simply relying on to_s
       if value.is_a?(Array)
         value.each do |val|
           part << build_part(boundary, name, val.to_s)
         end
-        return part
       else
         part << "--#{boundary}\r\n"
         part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
