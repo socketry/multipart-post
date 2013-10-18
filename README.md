@@ -1,13 +1,13 @@
-= multipart-post
+## multipart-post
 
 * http://github.com/nicksieger/multipart-post
 
-== DESCRIPTION:
+#### DESCRIPTION:
 
 Adds a streamy multipart form post capability to Net::HTTP. Also
 supports other methods besides POST.
 
-== FEATURES/PROBLEMS:
+#### FEATURES/PROBLEMS:
 
 * Appears to actually work. A good feature to have.
 * Encapsulates posting of file/binary parts and name/value parameter parts, similar to 
@@ -15,7 +15,7 @@ supports other methods besides POST.
 * Provides an UploadIO helper class to prepare IO objects for inclusion in the params
   hash of the multipart post object.
 
-== SYNOPSIS:
+#### SYNOPSIS:
 
     require 'net/http/post/multipart'
 
@@ -41,15 +41,15 @@ UploadIO values:
       http.request(req)
     end
 
-== REQUIREMENTS:
+#### REQUIREMENTS:
 
 None
 
-== INSTALL:
+#### INSTALL:
 
-gem install multipart-post
+    gem install multipart-post
 
-== LICENSE:
+#### LICENSE:
 
 (The MIT License)
 
