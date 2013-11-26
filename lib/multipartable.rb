@@ -9,8 +9,17 @@ require 'parts'
     DEFAULT_BOUNDARY = "-----------RubyMultipartPost"
     def initialize(path, params, headers={}, boundary = DEFAULT_BOUNDARY)
       super(path, headers)
-      parts = params.map {|k,v| Parts::Part.new(boundary, k, v)}
-      parts << Parts::EpiloguePart.new(boundary)
+      parts = []
+	  params.map{|k,v|
+	    if v.kind_of?(Array)
+	      v.each{|item|
+	        parts << Parts::Part.new(boundary, k, item)
+	      }
+	    else
+	      parts << Parts::Part.new(boundary, k, v)
+	    end
+	  }
+	  parts << Parts::EpiloguePart.new(boundary)
       ios = parts.map{|p| p.to_io }
       self.set_content_type(headers["Content-Type"] || "multipart/form-data",
                             { "boundary" => boundary })
