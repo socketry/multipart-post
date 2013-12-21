@@ -102,7 +102,7 @@ class UploadIO
     @io.send(*args)
   end
 
-  def respond_to?(meth)
-    @io.respond_to?(meth) || super(meth)
+  def respond_to?(meth, include_all = false)
+    @io.respond_to?(meth, include_all) || super(meth, include_all)
   end
 end
