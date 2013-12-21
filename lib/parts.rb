@@ -41,11 +41,19 @@ module Parts
 
     def build_part(boundary, name, value, headers = {})
       part = ''
-      part << "--#{boundary}\r\n"
-      part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
-      part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
-      part << "\r\n"
-      part << "#{value}\r\n"
+      # Converts Arrays of objects correctly and not simply relying on to_s
+      if value.is_a?(Array)
+        value.each do |val|
+          part << build_part(boundary, name, val, headers)
+        end
+      else
+        part << "--#{boundary}\r\n"
+        part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
+        part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
+        part << "\r\n"
+        part << "#{value}\r\n"
+      end
+      part
     end
   end
 
@@ -62,7 +70,7 @@ module Parts
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 
-    def build_head(boundary, name, filename, type, content_len, opts = {})
+    def build_head(boundary, name, filename, type, content_len, opts = {}, headers = {})
       trans_encoding = opts["Content-Transfer-Encoding"] || "binary"
       content_disposition = opts["Content-Disposition"] || "form-data"
 
@@ -73,7 +81,13 @@ module Parts
       if content_id = opts["Content-ID"]
         part << "Content-ID: #{content_id}\r\n"
       end
-      part << "Content-Type: #{type}\r\n"
+
+      if headers["Content-Type"] != nil
+        part <<  "Content-Type: " + headers["Content-Type"] + "\r\n"
+      else
+        part << "Content-Type: #{type}\r\n"
+      end
+
       part << "Content-Transfer-Encoding: #{trans_encoding}\r\n"
       part << "\r\n"
     end
