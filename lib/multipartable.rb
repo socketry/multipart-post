@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2007-2012 Nick Sieger.
+# Copyright (c) 2007-2013 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++

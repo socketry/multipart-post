@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2007-2012 Nick Sieger.
+# Copyright (c) 2007-2013 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++
@@ -54,6 +54,24 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     request = Net::HTTP::Post::Multipart.new("/foo/bar", parts, headers)
     assert_results request
     assert_additional_headers_added(request, headers[:parts])
+  end
+
+  def test_form_multipart_body_with_array_value
+    File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
+    @io = File.open(TEMP_FILE)
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    params = {:foo => ['bar', 'quux'], :file => @io}
+    headers = { :parts => {
+        :foo => { "Content-Type" => "application/json; charset=UTF-8" } } }
+    post = Net::HTTP::Post::Multipart.new("/foo/bar", params, headers,
+                                          Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY)
+
+    assert post.content_length && post.content_length > 0
+    assert post.body_stream
+
+    body = post.body_stream.read
+    assert_equal 2, body.lines.grep(/name="foo"/).length
+    assert body =~ /Content-Type: application\/json; charset=UTF-8/, body
   end
 
   def assert_results(post)
