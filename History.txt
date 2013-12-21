@@ -7,6 +7,8 @@
   (Steven Davidovitz)
 - GH #31: Support setting headers on any part of the request (Socrates Vicente)
 - GH #30: Support array values for params (Gustav Ernberg)
+- GH #32: Fix respond_to? signature (Leo Cassarani)
+- GH #33: Update README to markdown (Jagtesh Chadha)
 
 === 1.2.0 / 2013-02-25
 
