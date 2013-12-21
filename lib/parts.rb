@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2007-2012 Nick Sieger.
+# Copyright (c) 2007-2013 Nick Sieger.
 # See the file README.txt included with the distribution for
 # software license details.
 #++
@@ -8,11 +8,15 @@ module Parts
   module Part #:nodoc:
     def self.new(boundary, name, value, headers = {})
       headers ||= {} # avoid nil values
-      if value.respond_to? :content_type
+      if file?(value)
         FilePart.new(boundary, name, value, headers)
       else
         ParamPart.new(boundary, name, value, headers)
       end
+    end
+
+    def self.file?(value)
+      value.respond_to?(:content_type) && value.respond_to?(:original_filename)
     end
 
     def length
