@@ -40,6 +40,22 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 
+  def test_form_multiparty_body_with_parts_headers
+    @io = StringIO.new("1234567890")
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    parts = { :text => 'bar', :file => @io }
+    headers = {
+      :parts => {
+        :text => { "Content-Type" => "part/type" },
+        :file => { "Content-Transfer-Encoding" => "part-encoding" }
+      }
+    }
+
+    request = Net::HTTP::Post::Multipart.new("/foo/bar", parts, headers)
+    assert_results request
+    assert_additional_headers_added(request, headers[:parts])
+  end
+
   def assert_results(post)
     assert post.content_length && post.content_length > 0
     assert post.body_stream
@@ -52,5 +68,15 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     # ensure there is an epilogue
     assert body =~ /^--#{boundary_regex}--\r\n/
     assert body =~ /text\/plain/
+  end
+
+  def assert_additional_headers_added(post, parts_headers)
+    post.body_stream.rewind
+    body = post.body_stream.read
+    parts_headers.each do |part, headers|
+      headers.each do |k,v|
+        assert body =~ /#{k}: #{v}/
+      end
+    end
   end
 end
