@@ -2,6 +2,8 @@
 
 * http://github.com/nicksieger/multipart-post
 
+![build status](https://travis-ci.org/nicksieger/multipart-post.png)
+
 #### DESCRIPTION:
 
 Adds a streamy multipart form post capability to Net::HTTP. Also
