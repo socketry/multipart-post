@@ -1,3 +1,12 @@
+=== 2.0.0 / 2013-12-21
+
+- Drop Ruby 1.8 compatibility
+- GH #21: Fix FilePart length calculation for Ruby 1.9 when filename contains
+  multibyte characters (hexfet)
+- GH #20: Ensure upload responds to both #content_type and #original_filename
+  (Steven Davidovitz)
+- GH #31: Support setting headers on any part of the request (Socrates Vicente)
+
 === 1.2.0 / 2013-02-25
 
 - #25: Ruby 2 compatibility (thanks mislav)
