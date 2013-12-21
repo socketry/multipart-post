@@ -41,19 +41,11 @@ module Parts
 
     def build_part(boundary, name, value, headers = {})
       part = ''
-      # Converts Arrays of objects correctly and not simply relying on to_s
-      if value.is_a?(Array)
-        value.each do |val|
-          part << build_part(boundary, name, val, headers)
-        end
-      else
-        part << "--#{boundary}\r\n"
-        part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
-        part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
-        part << "\r\n"
-        part << "#{value}\r\n"
-      end
-      part
+      part << "--#{boundary}\r\n"
+      part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
+      part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
+      part << "\r\n"
+      part << "#{value}\r\n"
     end
   end
 

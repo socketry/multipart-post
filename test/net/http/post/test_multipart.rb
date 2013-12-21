@@ -74,6 +74,13 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     assert body =~ /Content-Type: application\/json; charset=UTF-8/, body
   end
 
+  def test_form_multipart_body_with_arrayparam
+    File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
+    @io = File.open(TEMP_FILE)
+    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :multivalueParam => ['bar','bah'], :file => @io)
+  end
+
   def assert_results(post)
     assert post.content_length && post.content_length > 0
     assert post.body_stream
@@ -86,6 +93,9 @@ class Net::HTTP::Post::MultiPartTest < Test::Unit::TestCase
     # ensure there is an epilogue
     assert body =~ /^--#{boundary_regex}--\r\n/
     assert body =~ /text\/plain/
+    if (body =~ /multivalueParam/)
+    	assert_equal 2, body.scan(/^.*multivalueParam.*$/).size
+    end
   end
 
   def assert_additional_headers_added(post, parts_headers)
