@@ -19,29 +19,33 @@ supports other methods besides POST.
 
 #### SYNOPSIS:
 
-    require 'net/http/post/multipart'
+```ruby
+require 'net/http/post/multipart'
 
-    url = URI.parse('http://www.example.com/upload')
-    File.open("./image.jpg") do |jpg|
-      req = Net::HTTP::Post::Multipart.new url.path,
-        "file" => UploadIO.new(jpg, "image/jpeg", "image.jpg")
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
-      end
-    end
+url = URI.parse('http://www.example.com/upload')
+File.open("./image.jpg") do |jpg|
+  req = Net::HTTP::Post::Multipart.new url.path,
+    "file" => UploadIO.new(jpg, "image/jpeg", "image.jpg")
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.request(req)
+  end
+end
+```
 
 To post multiple files or attachments, simply include multiple parameters with
 UploadIO values:
 
-    require 'net/http/post/multipart'
+```ruby
+require 'net/http/post/multipart'
 
-    url = URI.parse('http://www.example.com/upload')
-    req = Net::HTTP::Post::Multipart.new url.path,
-      "file1" => UploadIO.new(File.new("./image.jpg"), "image/jpeg", "image.jpg"),
-      "file2" => UploadIO.new(File.new("./image2.jpg"), "image/jpeg", "image2.jpg")
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.request(req)
-    end
+url = URI.parse('http://www.example.com/upload')
+req = Net::HTTP::Post::Multipart.new url.path,
+  "file1" => UploadIO.new(File.new("./image.jpg"), "image/jpeg", "image.jpg"),
+  "file2" => UploadIO.new(File.new("./image2.jpg"), "image/jpeg", "image2.jpg")
+res = Net::HTTP.start(url.host, url.port) do |http|
+  http.request(req)
+end
+```
 
 #### REQUIREMENTS:
 
