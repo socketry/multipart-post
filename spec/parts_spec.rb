@@ -1,16 +1,16 @@
 # Copyright, 2012, by Nick Sieger.
 # Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,7 @@ RSpec.describe Parts do
       def content_type; 'application/data'; end
     end
   end
-  
+
   it "test_file_with_upload_io" do
     expect(Parts::Part.file?(UploadIO.new(__FILE__, "text/plain"))).to be true
   end
@@ -81,6 +81,11 @@ RSpec.describe Parts::FilePart do
     file = Tempfile.new(name.respond_to?(:force_encoding) ? name.force_encoding("UTF-8") : name)
     assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(file, "text/plain"))
     file.close
+  end
+
+   it "test_force_content_type_header" do
+    part = Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-Type" => "application/pdf" })
+    expect(part.to_io.read).to match(/Content-Type: application\/pdf/)
   end
 end
 

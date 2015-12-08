@@ -62,9 +62,9 @@ module Parts
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 
-    def build_head(boundary, name, filename, type, content_len, opts = {}, headers = {})
+    def build_head(boundary, name, filename, type, content_len, opts = {})
       opts = opts.clone
-      
+
       trans_encoding = opts.delete("Content-Transfer-Encoding") || "binary"
       content_disposition = opts.delete("Content-Disposition") || "form-data"
 
@@ -76,8 +76,8 @@ module Parts
         part << "Content-ID: #{content_id}\r\n"
       end
 
-      if headers["Content-Type"] != nil
-        part <<  "Content-Type: " + headers["Content-Type"] + "\r\n"
+      if opts["Content-Type"] != nil
+        part <<  "Content-Type: " + opts["Content-Type"] + "\r\n"
       else
         part << "Content-Type: #{type}\r\n"
       end
