@@ -63,14 +63,16 @@ module Parts
     end
 
     def build_head(boundary, name, filename, type, content_len, opts = {}, headers = {})
-      trans_encoding = opts["Content-Transfer-Encoding"] || "binary"
-      content_disposition = opts["Content-Disposition"] || "form-data"
+      opts = opts.clone
+      
+      trans_encoding = opts.delete("Content-Transfer-Encoding") || "binary"
+      content_disposition = opts.delete("Content-Disposition") || "form-data"
 
       part = ''
       part << "--#{boundary}\r\n"
       part << "Content-Disposition: #{content_disposition}; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
       part << "Content-Length: #{content_len}\r\n"
-      if content_id = opts["Content-ID"]
+      if content_id = opts.delete("Content-ID")
         part << "Content-ID: #{content_id}\r\n"
       end
 
@@ -81,6 +83,11 @@ module Parts
       end
 
       part << "Content-Transfer-Encoding: #{trans_encoding}\r\n"
+
+      opts.each do |k, v|
+        part << "#{k}: #{v}\r\n"
+      end
+
       part << "\r\n"
     end
   end
