@@ -73,7 +73,11 @@ http.set_debug_output($stdout)
 ```
 #### INSTALL:
 
-    gem install multipart-post or add it to Gemfile
+    gem install multipart-post 
+    
+or in your Gemfile
+
+    gem 'multipart-post'
 
 ## License
 
