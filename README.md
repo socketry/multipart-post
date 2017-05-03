@@ -15,7 +15,11 @@ methods besides POST.
 
 ## Installation
 
-  gem install multipart-post
+    gem install multipart-post 
+    
+or in your Gemfile
+
+    gem 'multipart-post'
 
 ## Usage
 
@@ -47,7 +51,26 @@ res = Net::HTTP.start(url.host, url.port) do |http|
 end
 ```
 
+To post files with other normal params such as input values, you need to pass hashes to Multipart new method, in Rails 4:
 
+```ruby
+def model_params
+  require_params = params.require(:model).permit(:param_one, :param_two, :param_three, :avatar)
+  require_params[:avatar] = model_params[:avatar].present? ? UploadIO.new(model_params[:avatar].tempfile, model_params[:avatar].content_type, model_params[:avatar].original_filename) : nil
+  require_params
+end
+
+require 'net/http/post/multipart'
+
+url = URI.parse('http://www.example.com/upload')
+Net::HTTP.start(url.host, url.port) do |http|
+  req = Net::HTTP::Post::Multipart.new(url, model_params)
+  key = "authorization_key"
+  req.add_field("Authorization", key) #add to Headers
+  http.use_ssl = (url.scheme == "https")
+  http.request(req)
+end
+```
 ### Debugging
 
 You can debug requests and responses (e.g. status codes) for all requests by adding the following code:
