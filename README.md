@@ -47,6 +47,16 @@ res = Net::HTTP.start(url.host, url.port) do |http|
 end
 ```
 
+
+### Debugging
+
+You can debug requests and responses (e.g. status codes) for all requests by adding the following code:
+
+```ruby
+http = Net::HTTP.new(uri.host, uri.port)
+http.set_debug_output($stdout)
+```
+
 ## License
 
 Released under the MIT license.
