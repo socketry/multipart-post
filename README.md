@@ -13,6 +13,14 @@ methods besides POST.
 * Provides an UploadIO helper class to prepare IO objects for inclusion in the params
   hash of the multipart post object.
 
+## Installation
+
+    gem install multipart-post 
+    
+or in your Gemfile
+
+    gem 'multipart-post'
+
 ## Usage
 
 ```ruby
@@ -71,13 +79,6 @@ You can debug requests and responses (e.g. status codes) for all requests by add
 http = Net::HTTP.new(uri.host, uri.port)
 http.set_debug_output($stdout)
 ```
-#### INSTALL:
-
-    gem install multipart-post 
-    
-or in your Gemfile
-
-    gem 'multipart-post'
 
 ## License
 
