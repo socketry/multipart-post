@@ -33,15 +33,11 @@ module Multipart
         parts_headers.transform_keys!(&:to_sym)
 
         super(path, headers)
-        parts = params.transform_keys(&:to_sym).map do |k,v|
-          case v
-          when Array
-            v.map {|item| Parts::Part.new(boundary, k, item, parts_headers[k]) }
-          else
-            Parts::Part.new(boundary, k, v, parts_headers[k])
-          end
-        end.flatten
+
+        parts = Array.new
+        generate_parts(parts, params, boundary, parts_headers, '')
         parts << Parts::EpiloguePart.new(boundary)
+
         ios = parts.map {|p| p.to_io }
         self.set_content_type(headers["Content-Type"] || "multipart/form-data",
                               { "boundary" => boundary })
@@ -52,6 +48,30 @@ module Multipart
       end
 
       attr :boundary
+
+      private
+
+      def generate_parts(parts, params, boundary, parts_headers, prefix)
+        params.each do |key, value|
+          key = key.to_sym
+          generate_nested_parts(parts, key, value, boundary, parts_headers, prefix)
+        end
+      end
+
+      def generate_nested_parts(parts, key, value, boundary, parts_headers, prefix)
+        nested_prefix = prefix.empty? ? key.to_s : "#{prefix}[#{key}]"
+
+        case value
+        when Array
+          value.each do |item|
+            generate_nested_parts(parts, '', item, boundary, parts_headers, nested_prefix)
+          end
+        when Hash
+          generate_parts(parts, value, boundary, parts_headers, nested_prefix)
+        else
+          parts << Parts::Part.new(boundary, nested_prefix, value, parts_headers[key])
+        end
+      end
     end
   end
 end
