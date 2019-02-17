@@ -1,7 +1,7 @@
 # `Multipart::Post`
 
-Adds a streamy multipart form post capability to Net::HTTP. Also supports other
-methods besides POST.
+Adds a streamy multipart form post capability to `Net::HTTP`. Also supports other
+methods besides `POST`.
 
 [![Build Status](https://secure.travis-ci.org/nicksieger/multipart-post.svg)](http://travis-ci.org/nicksieger/multipart-post)
 
@@ -10,7 +10,7 @@ methods besides POST.
 * Appears to actually work. A good feature to have.
 * Encapsulates posting of file/binary parts and name/value parameter parts, similar to 
   most browsers' file upload forms.
-* Provides an UploadIO helper class to prepare IO objects for inclusion in the params
+* Provides an `UploadIO` helper class to prepare IO objects for inclusion in the params
   hash of the multipart post object.
 
 ## Installation
@@ -37,7 +37,7 @@ end
 ```
 
 To post multiple files or attachments, simply include multiple parameters with
-UploadIO values:
+`UploadIO` values:
 
 ```ruby
 require 'net/http/post/multipart'
@@ -51,7 +51,9 @@ res = Net::HTTP.start(url.host, url.port) do |http|
 end
 ```
 
-To post files with other normal params such as input values, you need to pass hashes to Multipart new method, in Rails 4:
+To post files with other normal, non-file params such as input values, you need to pass hashes to the `Multipart.new` method. 
+
+In Rails 4 for example:
 
 ```ruby
 def model_params
@@ -71,6 +73,24 @@ Net::HTTP.start(url.host, url.port) do |http|
   http.request(req)
 end
 ```
+
+Or in plain ruby:
+```
+def params(file)
+  params = { "description" => "A nice picture!" }
+  params[:datei] = UploadIO.new(file, "image/jpeg", "image.jpg")
+  params
+end
+
+url = URI.parse('http://www.example.com/upload')
+File.open(filename) do |file|
+  req = Net::HTTP::Post::Multipart.new(url.path, params(file, filename))
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    return http.request(req).body
+  end
+end
+```
+
 ### Debugging
 
 You can debug requests and responses (e.g. status codes) for all requests by adding the following code:
