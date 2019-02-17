@@ -83,8 +83,8 @@ def params(file)
 end
 
 url = URI.parse('http://www.example.com/upload')
-File.open(filename) do |file|
-  req = Net::HTTP::Post::Multipart.new(url.path, params(file, filename))
+File.open("./image.jpg") do |file|
+  req = Net::HTTP::Post::Multipart.new(url.path, params(file))
   res = Net::HTTP.start(url.host, url.port) do |http|
     return http.request(req).body
   end
