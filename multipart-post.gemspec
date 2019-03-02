@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.rdoc_options = ["--main", "README.md", "-SHN", "-f", "darkfish"]
   spec.require_paths = ["lib"]
   
-  spec.add_development_dependency 'bundler', '~> 1.3'
+  spec.add_development_dependency 'bundler', ['>= 1.3', '< 3']
   spec.add_development_dependency 'rspec', '~> 3.4'
   spec.add_development_dependency 'rake'
 end
