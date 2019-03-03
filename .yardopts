@@ -1,5 +1,5 @@
 --no-private
-lib/**/.rb
+lib/**/*.rb
 -
 History.txt
 LICENSE
