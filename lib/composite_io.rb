@@ -7,11 +7,11 @@
 # Concatenate together multiple IO objects into a single, composite IO object
 # for purposes of reading as a single stream.
 #
-# Usage:
-#
-#     crio = CompositeReadIO.new(StringIO.new('one'), StringIO.new('two'), StringIO.new('three'))
+# @example
+#     crio = CompositeReadIO.new(StringIO.new('one'),
+#                                StringIO.new('two'),
+#                                StringIO.new('three'))
 #     puts crio.read # => "onetwothree"
-#
 class CompositeReadIO
   # Create a new composite-read IO from the arguments, all of which should
   # respond to #read in a manner consistent with IO.
@@ -56,6 +56,8 @@ end
 
 # Convenience methods for dealing with files and IO that are to be uploaded.
 class UploadIO
+  attr_reader :content_type, :original_filename, :local_path, :io, :opts
+
   # Create an upload IO suitable for including in the params hash of a
   # Net::HTTP::Post::Multipart.
   #
@@ -67,13 +69,9 @@ class UploadIO
   # uploading directly from a form in a framework, which often save the file to
   # an arbitrarily named RackMultipart file in /tmp).
   #
-  # Usage:
-  #
+  # @example
   #     UploadIO.new("file.txt", "text/plain")
   #     UploadIO.new(file_io, "text/plain", "file.txt")
-  #
-  attr_reader :content_type, :original_filename, :local_path, :io, :opts
-
   def initialize(filename_or_io, content_type, filename = nil, opts = {})
     io = filename_or_io
     local_path = ""
@@ -95,7 +93,9 @@ class UploadIO
   end
 
   def self.convert!(io, content_type, original_filename, local_path)
-    raise ArgumentError, "convert! has been removed. You must now wrap IOs using:\nUploadIO.new(filename_or_io, content_type, filename=nil)\nPlease update your code."
+    raise ArgumentError, "convert! has been removed. You must now wrap IOs " \
+                         "using:\nUploadIO.new(filename_or_io, content_type, " \
+                         "filename=nil)\nPlease update your code."
   end
 
   def method_missing(*args)
