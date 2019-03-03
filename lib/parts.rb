@@ -5,7 +5,7 @@
 #++
 
 module Parts
-  module Part #:nodoc:
+  module Part
     def self.new(boundary, name, value, headers = {})
       headers ||= {} # avoid nil values
       if file?(value)
@@ -28,8 +28,14 @@ module Parts
     end
   end
 
+  # Represents a parametric part to be filled with given value.
   class ParamPart
     include Part
+
+    # @param boundary [String]
+    # @param name [#to_s]
+    # @param value [String]
+    # @param headers [Hash] Content-Type is used, if present.
     def initialize(boundary, name, value, headers = {})
       @part = build_part(boundary, name, value, headers)
       @io = StringIO.new(@part)
@@ -39,6 +45,10 @@ module Parts
      @part.bytesize
     end
 
+    # @param boundary [String]
+    # @param name [#to_s]
+    # @param value [String]
+    # @param headers [Hash] Content-Type is used, if present.
     def build_part(boundary, name, value, headers = {})
       part = ''
       part << "--#{boundary}\r\n"
@@ -52,7 +62,13 @@ module Parts
   # Represents a part to be filled from file IO.
   class FilePart
     include Part
+
     attr_reader :length
+
+    # @param boundary [String]
+    # @param name [#to_s]
+    # @param io [IO]
+    # @param headers [Hash]
     def initialize(boundary, name, io, headers = {})
       file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
       @head = build_head(boundary, name, io.original_filename, io.content_type, file_length,
@@ -62,6 +78,12 @@ module Parts
       @io = CompositeReadIO.new(StringIO.new(@head), io, StringIO.new(@foot))
     end
 
+    # @param boundary [String]
+    # @param name [#to_s]
+    # @param filename [String]
+    # @param type [String]
+    # @param content_len [Integer]
+    # @param opts [Hash]
     def build_head(boundary, name, filename, type, content_len, opts = {})
       opts = opts.clone
 
@@ -95,6 +117,7 @@ module Parts
   # Represents the epilogue or closing boundary.
   class EpiloguePart
     include Part
+
     def initialize(boundary)
       @part = "--#{boundary}--\r\n"
       @io = StringIO.new(@part)

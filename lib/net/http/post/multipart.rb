@@ -11,14 +11,15 @@ require 'composite_io'
 require 'multipartable'
 require 'parts'
 
-module Net #:nodoc:
-  class HTTP #:nodoc:
+module Net
+  class HTTP
     class Put
       class Multipart < Put
         include Multipartable
       end
     end
-    class Post #:nodoc:
+
+    class Post
       class Multipart < Post
         include Multipartable
       end
