@@ -8,15 +8,15 @@ methods besides `POST`.
 ## Features/Problems
 
 * Appears to actually work. A good feature to have.
-* Encapsulates posting of file/binary parts and name/value parameter parts, similar to 
+* Encapsulates posting of file/binary parts and name/value parameter parts, similar to
   most browsers' file upload forms.
 * Provides an `UploadIO` helper class to prepare IO objects for inclusion in the params
   hash of the multipart post object.
 
 ## Installation
 
-    gem install multipart-post 
-    
+    gem install multipart-post
+
 or in your Gemfile
 
     gem 'multipart-post'
@@ -51,7 +51,7 @@ res = Net::HTTP.start(url.host, url.port) do |http|
 end
 ```
 
-To post files with other normal, non-file params such as input values, you need to pass hashes to the `Multipart.new` method. 
+To post files with other normal, non-file params such as input values, you need to pass hashes to the `Multipart.new` method.
 
 In Rails 4 for example:
 
