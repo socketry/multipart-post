@@ -75,7 +75,8 @@ end
 ```
 
 Or in plain ruby:
-```
+
+```ruby
 def params(file)
   params = { "description" => "A nice picture!" }
   params[:datei] = UploadIO.new(file, "image/jpeg", "image.jpg")
