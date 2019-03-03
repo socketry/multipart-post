@@ -1,3 +1,8 @@
+<!--
+# @markup rdoc
+# @title CHANGELOG
+-->
+
 === 2.0.0 / 2013-12-21
 
 - Drop Ruby 1.8 compatibility
@@ -57,4 +62,3 @@
 * 1 major enhancement
 
   * Birthday!
-
