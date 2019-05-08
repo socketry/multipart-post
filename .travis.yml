@@ -1,6 +1,4 @@
 language: ruby
-
-dist: trusty
 cache: bundler
 
 rvm:
