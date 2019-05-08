@@ -3,7 +3,7 @@
 Adds a streamy multipart form post capability to `Net::HTTP`. Also supports other
 methods besides `POST`.
 
-[![Build Status](https://secure.travis-ci.org/nicksieger/multipart-post.svg)](http://travis-ci.org/nicksieger/multipart-post)
+[![Build Status](https://secure.travis-ci.org/ioquatix/multipart-post.svg)](http://travis-ci.org/ioquatix/multipart-post)
 
 ## Features/Problems
 
