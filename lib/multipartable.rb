@@ -5,11 +5,24 @@
 #++
 
 require 'parts'
+require 'securerandom'
 
 module Multipartable
-  DEFAULT_BOUNDARY = "-----------RubyMultipartPost"
-
-  def initialize(path, params, headers={}, boundary = DEFAULT_BOUNDARY)
+  def self.secure_boundary
+    # https://tools.ietf.org/html/rfc7230
+    #      tchar          = "!" / "#" / "$" / "%" / "&" / "'" / "*"
+    #                     / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~"
+    #                     / DIGIT / ALPHA
+    
+    # https://tools.ietf.org/html/rfc2046
+    #      bcharsnospace := DIGIT / ALPHA / "'" / "(" / ")" /
+    #                       "+" / "_" / "," / "-" / "." /
+    #                       "/" / ":" / "=" / "?"
+    
+    "--#{SecureRandom.alphanumeric(60)}"
+  end
+  
+  def initialize(path, params, headers={}, boundary = Multipartable.secure_boundary)
     headers = headers.clone # don't want to modify the original variable
     parts_headers = headers.delete(:parts) || {}
     super(path, headers)
@@ -27,5 +40,9 @@ module Multipartable
                           { "boundary" => boundary })
     self.content_length = parts.inject(0) {|sum,i| sum + i.length }
     self.body_stream = CompositeReadIO.new(*ios)
+    
+    @boundary = boundary
   end
+  
+  attr :boundary
 end

@@ -24,10 +24,10 @@ RSpec.shared_context "net http multipart" do
     expect(post.content_length).to be > 0
     expect(post.body_stream).to_not be_nil
     
-    expect(post['content-type']).to be == "multipart/form-data; boundary=#{Multipartable::DEFAULT_BOUNDARY}"
+    expect(post['content-type']).to be == "multipart/form-data; boundary=#{post.boundary}"
     
     body = post.body_stream.read
-    boundary_regex = Regexp.quote Multipartable::DEFAULT_BOUNDARY
+    boundary_regex = Regexp.quote(post.boundary)
     
     expect(body).to be =~ /1234567890/
     
@@ -93,9 +93,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
     params = {:foo => ['bar', 'quux'], :file => @io}
     headers = { :parts => {
         :foo => { "Content-Type" => "application/json; charset=UTF-8" } } }
-    post = Net::HTTP::Post::Multipart.new("/foo/bar", params, headers,
-                                          Net::HTTP::Post::Multipart::DEFAULT_BOUNDARY)
-
+    post = Net::HTTP::Post::Multipart.new("/foo/bar", params, headers)
     
     expect(post.content_length).to be > 0
     expect(post.body_stream).to_not be_nil
