@@ -19,7 +19,7 @@ module Multipartable
     #                       "+" / "_" / "," / "-" / "." /
     #                       "/" / ":" / "=" / "?"
     
-    "--#{SecureRandom.alphanumeric(60)}"
+    "--#{SecureRandom.uuid}"
   end
   
   def initialize(path, params, headers={}, boundary = Multipartable.secure_boundary)
