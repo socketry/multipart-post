@@ -100,7 +100,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
 
     body = post.body_stream.read
     expect(body.lines.grep(/name="foo"/).length).to be == 2
-    expect(body) =~ /Content-Type: application\/json; charset=UTF-8/
+    expect(body).to be =~ /Content-Type: application\/json; charset=UTF-8/
   end
 
   it "test_form_multipart_body_with_arrayparam" do
