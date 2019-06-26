@@ -99,4 +99,9 @@ RSpec.describe Parts::ParamPart do
   it "test_correct_length" do
     assert_part_length @part
   end
+
+  it "test_content_id" do
+    part = Parts::ParamPart.new("boundary", "with_content_id", "foobar", "Content-ID" => "id")
+    expect(part.to_io.read).to match(/Content-ID: id/)
+  end
 end

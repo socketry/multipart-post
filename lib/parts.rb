@@ -52,6 +52,7 @@ module Parts
     def build_part(boundary, name, value, headers = {})
       part = ''
       part << "--#{boundary}\r\n"
+      part << "Content-ID: #{headers["Content-ID"]}\r\n" if headers["Content-ID"]
       part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
       part << "Content-Type: #{headers["Content-Type"]}\r\n" if headers["Content-Type"]
       part << "\r\n"
