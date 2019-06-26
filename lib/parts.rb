@@ -35,7 +35,7 @@ module Parts
     # @param boundary [String]
     # @param name [#to_s]
     # @param value [String]
-    # @param headers [Hash] Content-Type is used, if present.
+    # @param headers [Hash] Content-Type and Content-ID are used, if present.
     def initialize(boundary, name, value, headers = {})
       @part = build_part(boundary, name, value, headers)
       @io = StringIO.new(@part)
