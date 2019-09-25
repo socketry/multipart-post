@@ -4,3 +4,4 @@ pkg
 *.swo
 *.swp
 /Gemfile.lock
+/.rspec_status
