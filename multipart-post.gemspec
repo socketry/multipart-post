@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "multipart_post"
+require "multipart/post/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "multipart-post"
-  spec.version     = MultipartPost::VERSION
+  spec.version     = Multipart::Post::VERSION
   spec.authors     = ["Nick Sieger", "Samuel Williams"]
   spec.email       = ["nick@nicksieger.com", "samuel.williams@oriontransfer.co.nz"]
   spec.homepage    = "https://github.com/nicksieger/multipart-post"

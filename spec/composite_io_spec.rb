@@ -100,7 +100,7 @@ RSpec.describe CompositeReadIO do
   end
   
   describe "unicode composite io" do
-    let(:utf8_io) {File.open(File.dirname(__FILE__)+'/multibyte.txt')}
+    let(:utf8_io) {File.open(File.dirname(__FILE__) + '/fixtures/multibyte.txt')}
     let(:binary_io) {StringIO.new("\x86")}
     
     subject {CompositeReadIO.new(binary_io, utf8_io)}

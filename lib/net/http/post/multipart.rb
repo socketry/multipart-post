@@ -9,7 +9,7 @@ require 'stringio'
 require 'cgi'
 require 'composite_io'
 require 'multipartable'
-require 'parts'
+require 'multipart/post/parts'
 
 module Net
   class HTTP
