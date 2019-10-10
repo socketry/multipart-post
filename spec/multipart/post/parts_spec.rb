@@ -19,12 +19,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'parts'
+require 'multipart/post/parts'
 require 'stringio'
 require 'composite_io'
 require 'tempfile'
 
-MULTIBYTE = File.dirname(__FILE__)+'/multibyte.txt'
+MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
 TEMP_FILE = "temp.txt"
 
 module AssertPartLength
@@ -35,7 +35,7 @@ module AssertPartLength
   end
 end
 
-RSpec.describe Parts do
+RSpec.describe Multipart::Post::Parts do
   let(:string_with_content_type) do
     Class.new(String) do
       def content_type; 'application/data'; end
@@ -43,25 +43,25 @@ RSpec.describe Parts do
   end
 
   it "test_file_with_upload_io" do
-    expect(Parts::Part.file?(UploadIO.new(__FILE__, "text/plain"))).to be true
+    expect(Multipart::Post::Parts::Part.file?(UploadIO.new(__FILE__, "text/plain"))).to be true
   end
 
   it "test_file_with_modified_string" do
-    expect(Parts::Part.file?(string_with_content_type.new("Hello"))).to be false
+    expect(Multipart::Post::Parts::Part.file?(string_with_content_type.new("Hello"))).to be false
   end
 
   it "test_new_with_modified_string" do
-    expect(Parts::Part.new("boundary", "multibyte", string_with_content_type.new("Hello"))).to be_kind_of(Parts::ParamPart)
+    expect(Multipart::Post::Parts::Part.new("boundary", "multibyte", string_with_content_type.new("Hello"))).to be_kind_of(Multipart::Post::Parts::ParamPart)
   end
 end
 
-RSpec.describe Parts::FilePart do
+RSpec.describe Multipart::Post::Parts::FilePart do
   include AssertPartLength
 
   before(:each) do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     io =  UploadIO.new(TEMP_FILE, "text/plain")
-    @part = Parts::FilePart.new("boundary", "afile", io)
+    @part = Multipart::Post::Parts::FilePart.new("boundary", "afile", io)
   end
 
   after(:each) do
@@ -73,27 +73,27 @@ RSpec.describe Parts::FilePart do
   end
 
   it "test_multibyte_file_length" do
-    assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(MULTIBYTE, "text/plain"))
+    assert_part_length Multipart::Post::Parts::FilePart.new("boundary", "multibyte", UploadIO.new(MULTIBYTE, "text/plain"))
   end
 
   it "test_multibyte_filename" do
     name = File.read(MULTIBYTE, 300)
     file = Tempfile.new(name.respond_to?(:force_encoding) ? name.force_encoding("UTF-8") : name)
-    assert_part_length Parts::FilePart.new("boundary", "multibyte", UploadIO.new(file, "text/plain"))
+    assert_part_length Multipart::Post::Parts::FilePart.new("boundary", "multibyte", UploadIO.new(file, "text/plain"))
     file.close
   end
 
    it "test_force_content_type_header" do
-    part = Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-Type" => "application/pdf" })
+    part = Multipart::Post::Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-Type" => "application/pdf" })
     expect(part.to_io.read).to match(/Content-Type: application\/pdf/)
   end
 end
 
-RSpec.describe Parts::ParamPart do
+RSpec.describe Multipart::Post::Parts::ParamPart do
   include AssertPartLength
 
   before(:each) do
-    @part = Parts::ParamPart.new("boundary", "multibyte", File.read(MULTIBYTE))
+    @part = Multipart::Post::Parts::ParamPart.new("boundary", "multibyte", File.read(MULTIBYTE))
   end
 
   it "test_correct_length" do
@@ -101,7 +101,7 @@ RSpec.describe Parts::ParamPart do
   end
 
   it "test_content_id" do
-    part = Parts::ParamPart.new("boundary", "with_content_id", "foobar", "Content-ID" => "id")
+    part = Multipart::Post::Parts::ParamPart.new("boundary", "with_content_id", "foobar", "Content-ID" => "id")
     expect(part.to_io.read).to match(/Content-ID: id/)
   end
 end

@@ -17,7 +17,7 @@ if ENV['COVERAGE']
 end
 
 require "bundler/setup"
-require "multipart_post"
+require "multipart/post"
 
 RSpec.configure do |config|
 	# Enable flags like --only-failures and --next-failure

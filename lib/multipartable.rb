@@ -4,7 +4,7 @@
 # software license details.
 #++
 
-require 'parts'
+require 'multipart/post/parts'
 require 'securerandom'
 
 module Multipartable
@@ -29,12 +29,12 @@ module Multipartable
     parts = params.map do |k,v|
       case v
       when Array
-        v.map {|item| Parts::Part.new(boundary, k, item, parts_headers[k]) }
+        v.map {|item| Multipart::Post::Parts::Part.new(boundary, k, item, parts_headers[k]) }
       else
-        Parts::Part.new(boundary, k, v, parts_headers[k])
+        Multipart::Post::Parts::Part.new(boundary, k, v, parts_headers[k])
       end
     end.flatten
-    parts << Parts::EpiloguePart.new(boundary)
+    parts << Multipart::Post::Parts::EpiloguePart.new(boundary)
     ios = parts.map {|p| p.to_io }
     self.set_content_type(headers["Content-Type"] || "multipart/form-data",
                           { "boundary" => boundary })

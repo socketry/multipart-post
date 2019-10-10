@@ -4,6 +4,5 @@
 # software license details.
 #++
 
-module MultipartPost
-  VERSION = "2.1.1"
+module Multipart
 end
