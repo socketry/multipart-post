@@ -128,6 +128,7 @@ Released under the MIT license.
 
 Copyright (c) 2007-2013 Nick Sieger <nick@nicksieger.com>  
 Copyright, 2017, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2019, by [Patrick Davey](https://psdavey.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
