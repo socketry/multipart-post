@@ -19,9 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'composite_io'
+require 'multipart/post/composite_read_io'
 require 'stringio'
 require 'timeout'
+
+MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
 
 RSpec.shared_context "composite io" do
   it "test_full_read_from_several_ios" do
@@ -80,59 +82,63 @@ RSpec.shared_context "composite io" do
   end
 end
 
-RSpec.describe CompositeReadIO do
-  describe "generic io" do
-    subject {StringIO.new('the quick brown fox')}
-  
-    include_context "composite io"
-  end
-  
-  describe "composite io" do
-    subject {CompositeReadIO.new(StringIO.new('the '), StringIO.new('quick '), StringIO.new('brown '), StringIO.new('fox'))}
-  
-    include_context "composite io"
-  end
-  
-  describe "nested composite io" do
-    subject {CompositeReadIO.new(CompositeReadIO.new(StringIO.new('the '), StringIO.new('quick ')), StringIO.new('brown '), StringIO.new('fox'))}
-  
-    include_context "composite io"
-  end
-  
-  describe "unicode composite io" do
-    let(:utf8_io) {File.open(File.dirname(__FILE__) + '/fixtures/multibyte.txt')}
-    let(:binary_io) {StringIO.new("\x86")}
-    
-    subject {CompositeReadIO.new(binary_io, utf8_io)}
-    
-    it "test_read_from_multibyte" do
-      expect(subject.read).to be == "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n".b
+module Multipart
+  module Post
+    RSpec.describe CompositeReadIO do
+      describe "generic io" do
+        subject {StringIO.new('the quick brown fox')}
+
+        include_context "composite io"
+      end
+
+      describe "composite io" do
+        subject {CompositeReadIO.new(StringIO.new('the '), StringIO.new('quick '), StringIO.new('brown '), StringIO.new('fox'))}
+
+        include_context "composite io"
+      end
+
+      describe "nested composite io" do
+        subject {CompositeReadIO.new(CompositeReadIO.new(StringIO.new('the '), StringIO.new('quick ')), StringIO.new('brown '), StringIO.new('fox'))}
+
+        include_context "composite io"
+      end
+
+      describe "unicode composite io" do
+        let(:utf8_io) { File.open(MULTIBYTE) }
+        let(:binary_io) {StringIO.new("\x86")}
+
+        subject {CompositeReadIO.new(binary_io, utf8_io)}
+
+        it "test_read_from_multibyte" do
+          expect(subject.read).to be == "\x86\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB\n".b
+        end
+      end
+
+      it "test_convert_error" do
+        expect do
+          UploadIO.convert!('tmp.txt', 'text/plain', 'tmp.txt', 'tmp.txt')
+        end.to raise_error(ArgumentError, /convert! has been removed/)
+      end
+
+      it "test_empty" do
+        expect(subject.read).to be == ""
+      end
+
+      it "test_empty_limited" do
+        expect(subject.read(1)).to be_nil
+      end
+
+      it "test_empty_parts" do
+        io = CompositeReadIO.new(StringIO.new, StringIO.new('the '), StringIO.new, StringIO.new('quick'))
+        expect(io.read(3)).to be == "the"
+        expect(io.read(3)).to be == " qu"
+        expect(io.read(3)).to be == "ick"
+      end
+
+      it "test_all_empty_parts" do
+        io = CompositeReadIO.new(StringIO.new, StringIO.new)
+        expect(io.read(1)).to be_nil
+      end
     end
-  end
-  
-  it "test_convert_error" do
-    expect do
-      UploadIO.convert!('tmp.txt', 'text/plain', 'tmp.txt', 'tmp.txt')
-    end.to raise_error(ArgumentError, /convert! has been removed/)
-  end
-  
-  it "test_empty" do
-    expect(subject.read).to be == ""
-  end
-
-  it "test_empty_limited" do
-    expect(subject.read(1)).to be_nil
-  end
-
-  it "test_empty_parts" do
-    io = CompositeReadIO.new(StringIO.new, StringIO.new('the '), StringIO.new, StringIO.new('quick'))
-    expect(io.read(3)).to be == "the"
-    expect(io.read(3)).to be == " qu"
-    expect(io.read(3)).to be == "ick"
-  end
-
-  it "test_all_empty_parts" do
-    io = CompositeReadIO.new(StringIO.new, StringIO.new)
-    expect(io.read(1)).to be_nil
   end
 end

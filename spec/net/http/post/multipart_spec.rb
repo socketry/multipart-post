@@ -60,19 +60,19 @@ RSpec.describe Net::HTTP::Post::Multipart do
   it "test_form_multipart_body" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 
   it "test_form_multipart_body_with_stringio" do
     @io = StringIO.new("1234567890")
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 
   it "test_form_multiparty_body_with_parts_headers" do
     @io = StringIO.new("1234567890")
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     parts = { :text => 'bar', :file => @io }
     headers = {
       :parts => {
@@ -89,7 +89,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
   it "test_form_multipart_body_with_array_value" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     params = {:foo => ['bar', 'quux'], :file => @io}
     headers = { :parts => {
         :foo => { "Content-Type" => "application/json; charset=UTF-8" } } }
@@ -106,7 +106,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
   it "test_form_multipart_body_with_arrayparam" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Post::Multipart.new("/foo/bar", :multivalueParam => ['bar','bah'], :file => @io)
   end
 end
@@ -117,7 +117,7 @@ RSpec.describe Net::HTTP::Put::Multipart do
   it "test_form_multipart_body_put" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
-    @io = UploadIO.new @io, "text/plain", TEMP_FILE
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     assert_results Net::HTTP::Put::Multipart.new("/foo/bar", :foo => 'bar', :file => @io)
   end
 end

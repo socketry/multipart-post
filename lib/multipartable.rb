@@ -5,6 +5,7 @@
 #++
 
 require 'multipart/post/parts'
+require 'multipart/post/composite_read_io'
 require 'securerandom'
 
 module Multipartable
@@ -39,7 +40,7 @@ module Multipartable
     self.set_content_type(headers["Content-Type"] || "multipart/form-data",
                           { "boundary" => boundary })
     self.content_length = parts.inject(0) {|sum,i| sum + i.length }
-    self.body_stream = CompositeReadIO.new(*ios)
+    self.body_stream = Multipart::Post::CompositeReadIO.new(*ios)
     
     @boundary = boundary
   end
