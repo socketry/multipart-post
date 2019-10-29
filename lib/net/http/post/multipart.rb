@@ -7,9 +7,9 @@
 require 'net/http'
 require 'stringio'
 require 'cgi'
-require 'composite_io'
 require 'multipartable'
 require 'multipart/post/parts'
+require 'multipart/post/composite_read_io'
 
 module Net
   class HTTP
