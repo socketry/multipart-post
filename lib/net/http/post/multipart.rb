@@ -7,21 +7,21 @@
 require 'net/http'
 require 'stringio'
 require 'cgi'
-require 'multipartable'
 require 'multipart/post/parts'
 require 'multipart/post/composite_read_io'
+require 'multipart/post/multipartable'
 
 module Net
   class HTTP
     class Put
       class Multipart < Put
-        include Multipartable
+        include ::Multipart::Post::Multipartable
       end
     end
 
     class Post
       class Multipart < Post
-        include Multipartable
+        include ::Multipart::Post::Multipartable
       end
     end
   end
