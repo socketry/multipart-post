@@ -93,7 +93,7 @@ module Multipart
           trans_encoding = opts.delete("Content-Transfer-Encoding") || "binary"
           content_disposition = opts.delete("Content-Disposition") || "form-data"
 
-          part = ''
+          part = +''
           part << "--#{boundary}\r\n"
           part << "Content-Disposition: #{content_disposition}; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
           part << "Content-Length: #{content_len}\r\n"
