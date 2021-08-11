@@ -9,12 +9,12 @@ on:
 jobs:
   test:
 
-    name: ${{ matrix.ruby }} ${{ matrix.os }}
+    name: Ruby ${{ matrix.ruby-version }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-11.0, windows-2019]
         ruby-version: ['2.0', '2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7', '3.0']
 
     steps:
