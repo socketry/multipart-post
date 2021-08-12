@@ -52,7 +52,7 @@ module Multipart
         # @param value [String]
         # @param headers [Hash] Content-Type is used, if present.
         def build_part(boundary, name, value, headers = {})
-          part = ''
+          part = String.new
           part << "--#{boundary}\r\n"
           part << "Content-ID: #{headers["Content-ID"]}\r\n" if headers["Content-ID"]
           part << "Content-Disposition: form-data; name=\"#{name.to_s}\"\r\n"
@@ -93,7 +93,7 @@ module Multipart
           trans_encoding = opts.delete("Content-Transfer-Encoding") || "binary"
           content_disposition = opts.delete("Content-Disposition") || "form-data"
 
-          part = +''
+          part = String.new
           part << "--#{boundary}\r\n"
           part << "Content-Disposition: #{content_disposition}; name=\"#{name.to_s}\"; filename=\"#{filename}\"\r\n"
           part << "Content-Length: #{content_len}\r\n"
@@ -122,7 +122,7 @@ module Multipart
         include Part
 
         def initialize(boundary)
-          @part = "--#{boundary}--\r\n"
+          @part = String.new("--#{boundary}--\r\n")
           @io = StringIO.new(@part)
         end
       end
