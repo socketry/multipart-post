@@ -3,7 +3,7 @@
 Adds a streamy multipart form post capability to `Net::HTTP`. Also supports other
 methods besides `POST`.
 
-[![Build Status](https://secure.travis-ci.org/socketry/multipart-post.svg)](http://travis-ci.org/socketry/multipart-post)
+[![Ruby CI](https://github.com/socketry/multipart-post/actions/workflows/ruby.yml/badge.svg)](https://github.com/socketry/multipart-post/actions/workflows/ruby.yml)
 
 ## Features/Problems
 
