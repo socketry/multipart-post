@@ -114,6 +114,12 @@ module Multipart
         end
       end
 
+      it "test_raises_appropriate_error_if_frozen_outbuf_supplied" do
+        expect do
+          subject.read(nil, 'frozen input'.freeze)
+        end.to raise_error(ArgumentError)
+      end
+
       it "test_convert_error" do
         expect do
           UploadIO.convert!('tmp.txt', 'text/plain', 'tmp.txt', 'tmp.txt')
