@@ -1,30 +1,44 @@
-name: Ruby CI
+name: Development
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
   test:
-
-    name: Ruby ${{ matrix.ruby-version }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}-latest
+    continue-on-error: ${{matrix.experimental}}
+    
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        ruby-version: ['2.6', '2.7', '3.0']
-
+        os:
+          - ubuntu
+          - macos
+        
+        ruby:
+          - "2.6"
+          - "2.7"
+          - "3.0"
+        
+        experimental: [false]
+        env: [""]
+        
+        include:
+          - os: ubuntu
+            ruby: truffleruby
+            experimental: true
+          - os: ubuntu
+            ruby: jruby
+            experimental: true
+          - os: ubuntu
+            ruby: head
+            experimental: true
+    
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        ruby-version: ${{matrix.ruby}}
+        bundler-cache: true
+    
     - name: Run tests
-      run: bundle exec rake
-      env:
-        RUBYOPT: --enable-frozen-string-literal
+      timeout-minutes: 5
+      run: ${{matrix.env}} bundle exec rspec

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Copyright, 2012, by Nick Sieger.
 # Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
