@@ -25,7 +25,7 @@ module Multipart
       # Read from IOs in order until `length` bytes have been received.
       def read(length = nil, outbuf = nil)
         got_result = false
-        outbuf = outbuf ? outbuf.replace("") : ""
+        outbuf = outbuf ? outbuf.replace("") : String.new
 
         while io = current_io
           if result = io.read(length)

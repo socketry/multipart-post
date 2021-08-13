@@ -43,7 +43,7 @@ RSpec.shared_context "composite io" do
   end
   
   it "test_read_into_buffer" do
-    buf = ''
+    buf = String.new
     subject.read(nil, buf)
     expect(buf).to be == 'the quick brown fox'
   end
