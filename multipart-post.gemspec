@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "multipart/post/version"
+require_relative "lib/multipart/post/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "multipart-post"
