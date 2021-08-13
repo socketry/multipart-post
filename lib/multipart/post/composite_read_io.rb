@@ -24,7 +24,7 @@ module Multipart
 
       # Read from IOs in order until `length` bytes have been received.
       def read(length = nil, outbuf = nil)
-        raise ArgumentError, "The outbuf parameter must not be frozen" if outbuf.frozen?
+        raise ArgumentError, "The outbuf parameter must not be frozen" if !outbuf.nil? && outbuf.frozen?
         got_result = false
         outbuf = outbuf ? outbuf.replace("") : ""
 
