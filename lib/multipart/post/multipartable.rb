@@ -30,8 +30,10 @@ module Multipart
       def initialize(path, params, headers={}, boundary = Multipartable.secure_boundary)
         headers = headers.clone # don't want to modify the original variable
         parts_headers = headers.delete(:parts) || {}
+        parts_headers.transform_keys!(&:to_sym)
+
         super(path, headers)
-        parts = params.map do |k,v|
+        parts = params.transform_keys(&:to_sym).map do |k,v|
           case v
           when Array
             v.map {|item| Parts::Part.new(boundary, k, item, parts_headers[k]) }
