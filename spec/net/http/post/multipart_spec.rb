@@ -17,29 +17,29 @@ RSpec.shared_context "net http multipart" do
       end
     end
   end
-  
+
   after(:each) do
     File.delete(temp_file) rescue nil
   end
-  
+
   def assert_results(post)
     expect(post.content_length).to be > 0
     expect(post.body_stream).to_not be_nil
-    
+
     expect(post['content-type']).to be == "multipart/form-data; boundary=#{post.boundary}"
-    
+
     body = post.body_stream.read
     boundary_regex = Regexp.quote(post.boundary)
-    
+
     expect(body).to be =~ /1234567890/
-    
+
     # ensure there is at least one boundary
     expect(body).to be =~ /^--#{boundary_regex}\r\n/
-    
+
     # ensure there is an epilogue
     expect(body).to be =~ /^--#{boundary_regex}--\r\n/
     expect(body).to be =~ /text\/plain/
-    
+
     if (body =~ /multivalueParam/)
       expect(body.scan(/^.*multivalueParam.*$/).size).to be == 2
     end
@@ -58,7 +58,7 @@ end
 
 RSpec.describe Net::HTTP::Post::Multipart do
   include_context "net http multipart"
-  
+
   it "test_form_multipart_body" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
@@ -88,6 +88,22 @@ RSpec.describe Net::HTTP::Post::Multipart do
     assert_additional_headers_added(request, headers[:parts])
   end
 
+  it "test_form_multiparty_body_with_parts_headers_with_mixed_keys" do
+    @io = StringIO.new("1234567890")
+    @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
+    parts = { "text" => 'bar', "file" => @io }
+    headers = {
+      'parts': {
+        'text': { "Content-Type" => "part/type" },
+        'file': { "Content-Transfer-Encoding" => "part-encoding" }
+      }
+    }
+
+    request = Net::HTTP::Post::Multipart.new("/foo/bar", parts, headers)
+    assert_results request
+    assert_additional_headers_added(request, headers[:parts])
+  end
+
   it "test_form_multipart_body_with_array_value" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
@@ -96,7 +112,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
     headers = { :parts => {
         :foo => { "Content-Type" => "application/json; charset=UTF-8" } } }
     post = Net::HTTP::Post::Multipart.new("/foo/bar", params, headers)
-    
+
     expect(post.content_length).to be > 0
     expect(post.body_stream).to_not be_nil
 
@@ -115,7 +131,7 @@ end
 
 RSpec.describe Net::HTTP::Put::Multipart do
   include_context "net http multipart"
-  
+
   it "test_form_multipart_body_put" do
     File.open(TEMP_FILE, "w") {|f| f << "1234567890"}
     @io = File.open(TEMP_FILE)
