@@ -88,7 +88,7 @@ RSpec.describe Net::HTTP::Post::Multipart do
     assert_additional_headers_added(request, headers[:parts])
   end
 
-  it "test_form_multiparty_body_with_parts_headers_with_mixed_keys" do
+it "can handle multipart form body with mixed header keys" do
     @io = StringIO.new("1234567890")
     @io = Multipart::Post::UploadIO.new @io, "text/plain", TEMP_FILE
     parts = { "text" => 'bar', "file" => @io }
