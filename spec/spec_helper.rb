@@ -20,6 +20,9 @@ end
 require "bundler/setup"
 require "multipart/post"
 
+MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
+TEMP_FILE = "temp.txt"
+
 RSpec.configure do |config|
 	# Enable flags like --only-failures and --next-failure
 	config.example_status_persistence_file_path = ".rspec_status"
