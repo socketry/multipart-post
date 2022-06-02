@@ -26,9 +26,6 @@ require 'multipart/post/composite_read_io'
 require 'stringio'
 require 'tempfile'
 
-MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
-TEMP_FILE = "temp.txt"
-
 module AssertPartLength
   def assert_part_length(part)
     bytes = part.to_io.read
