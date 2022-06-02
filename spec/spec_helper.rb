@@ -20,7 +20,7 @@ end
 require "bundler/setup"
 require "multipart/post"
 
-MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
+MULTIBYTE = __dir__ + '/../../fixtures/multibyte.txt'
 TEMP_FILE = "temp.txt"
 
 RSpec.configure do |config|
