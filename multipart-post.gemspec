@@ -3,21 +3,18 @@
 require_relative "lib/multipart/post/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "multipart-post"
-  spec.version     = Multipart::Post::VERSION
-  spec.authors     = ["Nick Sieger", "Samuel Williams"]
-  spec.email       = ["nick@nicksieger.com", "samuel.williams@oriontransfer.co.nz"]
-  spec.homepage    = "https://github.com/nicksieger/multipart-post"
-  spec.summary     = %q{A multipart form post accessory for Net::HTTP.}
-  spec.license     = "MIT"
-  spec.description = %q{Use with Net::HTTP to do multipart form postspec. IO values that have #content_type, #original_filename, and #local_path will be posted as a binary file.}
-  
-  spec.files         = `git ls-files`.split("\n")
-  spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-  
-  spec.add_development_dependency 'bundler', ['>= 1.3', '< 3']
-  spec.add_development_dependency 'rspec', '~> 3.4'
-  spec.add_development_dependency 'rake'
+	spec.name = "multipart-post"
+	spec.version = Multipart::Post::VERSION
+	
+	spec.summary = "A multipart form post accessory for Net::HTTP."
+	spec.authors = ["Nick Sieger", "Samuel Williams", "Olle Jonsson", "McClain Looney", "Lewis Cowles", "Gustav Ernberg", "Patrick Davey", "Steven Davidovitz", "Alex Koppel", "Ethan Turkeltaub", "Jagtesh Chadha", "Nick", "VincWebwag", "hasimo", "hexfet", "Christine Yen", "David Moles", "Eric Hutzelman", "Feuda Nan", "Gerrit Riessen", "Jan Piotrowski", "Jan-Joost Spanjers", "Jason Moore", "Jeff Hodges", "Johannes Wagener", "Jordi Massaguer Pla", "Lachlan Priest", "Leo Cassarani", "Lonre Wang", "Luke Redpath", "Matt Colyer", "Mislav Marohnić", "Socrates Vicente", "Steffen Grunwald", "Tim Barkley"]
+	spec.license = "MIT"
+	
+	spec.homepage = "https://github.com/socketry/multipart-post"
+	
+	spec.files = Dir.glob('{lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	
+	spec.add_development_dependency "bundler"
+	spec.add_development_dependency "rake"
+	spec.add_development_dependency "rspec", "~> 3.4"
 end
