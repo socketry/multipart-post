@@ -5,6 +5,7 @@
 ### Added
 
 - Add the ability to set Content-ID header for ParamPart [#62](https://github.com/socketry/multipart-post/pull/62)
+- Allow mixed key types for parts headers [#79](https://github.com/socketry/multipart-post/pull/79)
 
 ### Changed
 
