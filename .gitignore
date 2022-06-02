@@ -3,5 +3,5 @@ pkg
 *~
 *.swo
 *.swp
-/Gemfile.lock
+/gems.locked
 /.rspec_status

@@ -3,27 +3,25 @@
 Adds a streamy multipart form post capability to `Net::HTTP`. Also supports other
 methods besides `POST`.
 
-[![Ruby CI](https://github.com/socketry/multipart-post/actions/workflows/ruby.yml/badge.svg)](https://github.com/socketry/multipart-post/actions/workflows/ruby.yml)
+[![Development Status](https://github.com/socketry/multipart-post/workflows/Development/badge.svg)](https://github.com/socketry/multipart-post/actions?workflow=Development)
 
 ## Features/Problems
 
-* Appears to actually work. A good feature to have.
-* Encapsulates posting of file/binary parts and name/value parameter parts, similar to
-  most browsers' file upload forms.
-* Provides an `UploadIO` helper class to prepare IO objects for inclusion in the params
-  hash of the multipart post object.
+  - Appears to actually work. A good feature to have.
+  - Encapsulates posting of file/binary parts and name/value parameter parts, similar to
+    most browsers' file upload forms.
+  - Provides an `UploadIO` helper class to prepare IO objects for inclusion in the params
+    hash of the multipart post object.
 
 ## Installation
 
-    gem install multipart-post
-
-or in your Gemfile
-
-    gem 'multipart-post'
+``` shell
+bundle add multipart-post
+```
 
 ## Usage
 
-```ruby
+``` ruby
 require 'net/http/post/multipart'
 
 url = URI.parse('http://www.example.com/upload')
@@ -39,7 +37,7 @@ end
 To post multiple files or attachments, simply include multiple parameters with
 `UploadIO` values:
 
-```ruby
+``` ruby
 require 'net/http/post/multipart'
 
 url = URI.parse('http://www.example.com/upload')
@@ -55,7 +53,7 @@ To post files with other normal, non-file params such as input values, you need 
 
 In Rails 4 for example:
 
-```ruby
+``` ruby
 def model_params
   require_params = params.require(:model).permit(:param_one, :param_two, :param_three, :avatar)
   require_params[:avatar] = model_params[:avatar].present? ? UploadIO.new(model_params[:avatar].tempfile, model_params[:avatar].content_type, model_params[:avatar].original_filename) : nil
@@ -76,7 +74,7 @@ end
 
 Or in plain ruby:
 
-```ruby
+``` ruby
 def params(file)
   params = { "description" => "A nice picture!" }
   params[:datei] = UploadIO.new(file, "image/jpeg", "image.jpg")
@@ -93,13 +91,14 @@ end
 ```
 
 ### Parts Headers
-By default, all individual parts will include the header `Content-Disposition` as well as `Content-Length`, `Content-Transfer-Encoding` and `Content-Type` for the File Parts. 
+
+By default, all individual parts will include the header `Content-Disposition` as well as `Content-Length`, `Content-Transfer-Encoding` and `Content-Type` for the File Parts.
 
 You may optionally configure the headers `Content-Type` and `Content-ID` for both ParamPart and FilePart by passing in a `parts` header.
 
-For example: 
+For example:
 
-```ruby
+``` ruby
 url = URI.parse('http://www.example.com/upload')
 
 params = {
@@ -118,22 +117,21 @@ headers = {
 req = Net::HTTP::Post::Multipart.new(uri, params, headers)
 ```
 
-This would configure the `file_metadata_01` part to include `Content-Type` 
+This would configure the `file_metadata_01` part to include `Content-Type`
 
-```
-Content-Disposition: form-data; name="file_metadata_01"
-Content-Type: application/json
-  {
-    "description" => "A nice picture!" 
-  }
-```
+    Content-Disposition: form-data; name="file_metadata_01"
+    Content-Type: application/json
+      {
+        "description" => "A nice picture!" 
+      }
 
 #### Custom Parts Headers
+
 *For FileParts only.*
 
-You can include any number of custom parts headers in addition to `Content-Type` and `Content-ID`. 
+You can include any number of custom parts headers in addition to `Content-Type` and `Content-ID`.
 
-```ruby
+``` ruby
 headers = {
   'parts': {
     'file_metadata_01': {
@@ -144,20 +142,18 @@ headers = {
 }
 ```
 
-
-
 ### Debugging
 
 You can debug requests and responses (e.g. status codes) for all requests by adding the following code:
 
-```ruby
+``` ruby
 http = Net::HTTP.new(uri.host, uri.port)
 http.set_debug_output($stdout)
 ```
 
 ## Versioning
 
-This library aims to adhere to [Semantic Versioning 2.0.0][semver].
+This library aims to adhere to [Semantic Versioning 2.0.0](http://semver.org/).
 Violations of this scheme should be reported as bugs. Specifically,
 if a minor or patch version is released that breaks backward
 compatibility, a new version should be immediately released that
@@ -165,16 +161,13 @@ restores compatibility. Breaking changes to the public API will
 only be introduced with new major versions.
 
 As a result of this policy, you can (and should) specify a
-dependency on this gem using the [Pessimistic Version Constraint][pvc] with two digits of precision.
+dependency on this gem using the [Pessimistic Version Constraint](http://guides.rubygems.org/patterns/#pessimistic-version-constraint) with two digits of precision.
 
 For example:
 
-```ruby
+``` ruby
 spec.add_dependency 'multipart-post', '~> 2.1'
 ```
-
-[semver]: http://semver.org/
-[pvc]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint
 
 ## License
 
@@ -182,7 +175,7 @@ Released under the MIT license.
 
 Copyright, 2007-2013, by [Nick Sieger](https://nicksieger.com).  
 Copyright, 2017, by [Samuel G. D. Williams](https://www.codeotaku.com).  
-Copyright, 2019, by [Patrick Davey](https://psdavey.com).  
+Copyright, 2019, by [Patrick Davey](https://psdavey.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
