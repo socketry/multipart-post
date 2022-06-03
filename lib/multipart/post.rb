@@ -21,3 +21,4 @@
 # THE SOFTWARE.
 
 require_relative 'post/multipartable'
+require_relative 'post/upload_io'

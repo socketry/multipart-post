@@ -70,3 +70,6 @@ module Multipart
     end
   end
 end
+
+Multipartable = Multipart::Post::Multipartable
+Object.deprecate_constant :Multipartable
