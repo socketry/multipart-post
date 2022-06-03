@@ -6,7 +6,9 @@ def external
 	Bundler.with_unbundled_env do
 		clone_and_test("faraday-multipart", "https://github.com/lostisland/faraday-multipart.git")
 		# clone_and_test("jira-ruby", "https://github.com/sumoheavy/jira-ruby.git")
-		clone_and_test("zendesk_api", "https://github.com/zendesk/zendesk_api_client_rb.git")
+		# clone_and_test("zendesk_api", "https://github.com/zendesk/zendesk_api_client_rb.git")
+		# clone_and_test("fastlane", "https://github.com/fastlane/fastlane.git")
+		clone_and_test("twitter", "https://github.com/sferik/twitter.git")
 	end
 end
 
