@@ -1,7 +1,4 @@
-doc
-pkg
-*~
-*.swo
-*.swp
+/pkg
 /gems.locked
 /.rspec_status
+/external
