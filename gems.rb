@@ -4,7 +4,9 @@ gemspec
 
 gem "bake"
 
-group :maintenance, optional: true do
-	gem "bake-gem"
-	gem "bake-modernize"
+if RUBY_VERSION >= "2.7.0"
+	group :maintenance, optional: true do
+		gem "bake-gem"
+		gem "bake-modernize"
+	end
 end
