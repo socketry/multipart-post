@@ -44,11 +44,10 @@ module Multipart
 
       def initialize(path, params, headers={}, boundary = Multipartable.secure_boundary)
         headers = headers.clone # don't want to modify the original variable
-        parts_headers = headers.delete(:parts) || {}
-        parts_headers.transform_keys!(&:to_sym)
+        parts_headers = symbolize_keys(headers.delete(:parts) || {})
 
         super(path, headers)
-        parts = params.transform_keys(&:to_sym).map do |k,v|
+        parts = symbolize_keys(params).map do |k,v|
           case v
           when Array
             v.map {|item| Parts::Part.new(boundary, k, item, parts_headers[k]) }
@@ -67,6 +66,18 @@ module Multipart
       end
 
       attr :boundary
+
+      private
+
+      if RUBY_VERSION >= "2.5.0"
+        def symbolize_keys(hash)
+          hash.transform_keys(&:to_sym)
+        end
+      else
+        def symbolize_keys(hash)
+          hash.map{|key,value| [key.to_sym, value]}.to_h
+        end
+      end
     end
   end
 end
