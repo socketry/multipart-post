@@ -147,6 +147,3 @@ module Multipart
     end
   end
 end
-
-Parts = Multipart::Post::Parts
-Object.deprecate_constant :Parts
