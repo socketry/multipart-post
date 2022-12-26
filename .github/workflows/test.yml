@@ -1,4 +1,4 @@
-name: Development
+name: Test
 
 on: [push, pull_request]
 
@@ -47,5 +47,4 @@ jobs:
     - name: Run tests
       timeout-minutes: 5
       run: |
-        gem update --system
         ${{matrix.env}} bundle exec rspec
