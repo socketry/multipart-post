@@ -77,6 +77,11 @@ module Multipart
         part = Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-Type" => "application/pdf" })
         expect(part.to_io.read).to match(/Content-Type: application\/pdf/)
       end
+
+      it "test_content_id" do
+        part = Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-ID" => "id" })
+        expect(part.to_io.read).to match(/Content-ID: id/)
+      end
     end
 
     RSpec.describe Parts::ParamPart do
