@@ -1,4 +1,5 @@
 /pkg
 /gems.locked
 /.rspec_status
+/.covered.db
 /external
