@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# Released under the MIT License.
+# Copyright, 2017-2022, by Samuel Williams.
+# Copyright, 2019, by Patrick Davey.
+
 if ENV['COVERAGE']
 	begin
 		require 'simplecov'

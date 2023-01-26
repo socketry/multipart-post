@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
-#--
-# Copyright (c) 2007-2013 Nick Sieger.
-# See the file README.txt included with the distribution for
-# software license details.
-#++
+# Released under the MIT License.
+# Copyright, 2006-2013, by Nick Sieger.
+# Copyright, 2008, by McClain Looney.
+# Copyright, 2011, by Jeff Hodges.
+# Copyright, 2013, by Vincent Pellé.
+# Copyright, 2013, by Gustav Ernberg.
+# Copyright, 2013, by Socrates Vicente.
+# Copyright, 2013, by Steffen Grunwald.
+# Copyright, 2017-2021, by Samuel Williams.
+# Copyright, 2019, by Patrick Davey.
+# Copyright, 2022, by Jason York.
 
 require 'net/http/post/multipart'
 

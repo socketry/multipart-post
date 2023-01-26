@@ -1,0 +1,6 @@
+faraday-multipart:
+  url: https://github.com/lostisland/faraday-multipart.git
+  command: bundle exec rspec
+twitter:
+  url: https://github.com/sferik/twitter.git
+  command: bundle exec rspec

@@ -3,7 +3,7 @@
 Adds a streamy multipart form post capability to `Net::HTTP`. Also supports other
 methods besides `POST`.
 
-[![Development Status](https://github.com/socketry/multipart-post/workflows/Development/badge.svg)](https://github.com/socketry/multipart-post/actions?workflow=Development)
+[![Development Status](https://github.com/socketry/multipart-post/workflows/Test/badge.svg)](https://github.com/socketry/multipart-post/actions?workflow=Test)
 
 ## Features/Problems
 
@@ -168,29 +168,3 @@ For example:
 ``` ruby
 spec.add_dependency 'multipart-post', '~> 2.1'
 ```
-
-## License
-
-Released under the MIT license.
-
-Copyright, 2007-2013, by [Nick Sieger](https://nicksieger.com).  
-Copyright, 2017, by [Samuel G. D. Williams](https://www.codeotaku.com).  
-Copyright, 2019, by [Patrick Davey](https://psdavey.com).
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
