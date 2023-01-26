@@ -62,14 +62,8 @@ module Multipart
 
       private
 
-      if RUBY_VERSION >= "2.5.0"
-        def symbolize_keys(hash)
-          hash.transform_keys(&:to_sym)
-        end
-      else
-        def symbolize_keys(hash)
-          hash.map{|key,value| [key.to_sym, value]}.to_h
-        end
+      def symbolize_keys(hash)
+        hash.transform_keys(&:to_sym)
       end
     end
   end
