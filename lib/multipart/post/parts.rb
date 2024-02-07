@@ -17,7 +17,7 @@
 # Copyright, 2019-2021, by Olle Jonsson.
 # Copyright, 2019, by Ethan Turkeltaub.
 # Copyright, 2019, by Patrick Davey.
-# Copyright, 2021-2022, by Samuel Williams.
+# Copyright, 2021-2024, by Samuel Williams.
 
 require 'stringio'
 
