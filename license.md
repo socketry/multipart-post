@@ -21,7 +21,7 @@ Copyright, 2013, by Leo Cassarani.
 Copyright, 2013, by Jagtesh Chadha.  
 Copyright, 2013, by Steffen Grunwald.  
 Copyright, 2013, by Lonre Wang.  
-Copyright, 2017-2023, by Samuel Williams.  
+Copyright, 2017-2024, by Samuel Williams.  
 Copyright, 2017, by Feuda Nan.  
 Copyright, 2017, by David Moles.  
 Copyright, 2017, by Matt Colyer.  
@@ -37,6 +37,7 @@ Copyright, 2021, by Lewis Cowles.
 Copyright, 2022, by Jason York.  
 Copyright, 2022, by Takuya Noguchi.  
 Copyright, 2023, by Peter Goldstein.  
+Copyright, 2024, by Masato Nakamura.  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

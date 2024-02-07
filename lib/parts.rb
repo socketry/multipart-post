@@ -16,7 +16,7 @@
 # Copyright, 2017, by Eric Hutzelman.
 # Copyright, 2019, by Olle Jonsson.
 # Copyright, 2019, by Ethan Turkeltaub.
-# Copyright, 2022, by Samuel Williams.
+# Copyright, 2022-2024, by Samuel Williams.
 
 warn "Top level ::Parts is deprecated, require 'multipart/post' and use `Multipart::Post::Parts` instead!"
 require_relative 'multipart/post'

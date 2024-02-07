@@ -8,7 +8,7 @@
 # Copyright, 2013, by Gustav Ernberg.
 # Copyright, 2013, by Socrates Vicente.
 # Copyright, 2013, by Steffen Grunwald.
-# Copyright, 2017-2021, by Samuel Williams.
+# Copyright, 2017-2024, by Samuel Williams.
 # Copyright, 2019, by Patrick Davey.
 # Copyright, 2022, by Jason York.
 

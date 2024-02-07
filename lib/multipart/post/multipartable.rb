@@ -9,7 +9,7 @@
 # Copyright, 2013, by Socrates Vicente.
 # Copyright, 2013, by Steffen Grunwald.
 # Copyright, 2019, by Olle Jonsson.
-# Copyright, 2019-2022, by Samuel Williams.
+# Copyright, 2019-2024, by Samuel Williams.
 # Copyright, 2019, by Patrick Davey.
 # Copyright, 2022, by Jason York.
 

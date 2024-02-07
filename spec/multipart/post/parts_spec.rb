@@ -5,7 +5,7 @@
 # Copyright, 2011-2013, by Nick Sieger.
 # Copyright, 2012, by Steven Davidovitz.
 # Copyright, 2012, by hexfet.
-# Copyright, 2017-2022, by Samuel Williams.
+# Copyright, 2017-2024, by Samuel Williams.
 # Copyright, 2017, by Eric Hutzelman.
 # Copyright, 2019, by Ethan Turkeltaub.
 # Copyright, 2019, by Patrick Davey.

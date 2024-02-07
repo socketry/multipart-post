@@ -11,7 +11,7 @@
 # Copyright, 2013, by Mislav Marohnić.
 # Copyright, 2013, by Leo Cassarani.
 # Copyright, 2019, by Olle Jonsson.
-# Copyright, 2022, by Samuel Williams.
+# Copyright, 2022-2024, by Samuel Williams.
 
 warn "Top level ::CompositeIO is deprecated, require 'multipart/post' and use `Multipart::Post::CompositeReadIO` instead!"
 require_relative 'multipart/post'

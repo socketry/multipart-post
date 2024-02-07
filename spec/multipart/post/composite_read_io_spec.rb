@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2017-2021, by Samuel Williams.
+# Copyright, 2006-2013, by Nick Sieger.
+# Copyright, 2010, by Tohru Hashimoto.
+# Copyright, 2011, by Alex Koppel.
+# Copyright, 2011, by Luke Redpath.
+# Copyright, 2013, by Mislav Marohnić.
+# Copyright, 2017-2024, by Samuel Williams.
 # Copyright, 2019, by Patrick Davey.
 # Copyright, 2021, by Lewis Cowles.
 
