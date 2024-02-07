@@ -15,6 +15,10 @@ RSpec.shared_context "composite io" do
   it "can close all the ios" do
     subject.close
     expect(subject.closed?).to be_truthy
+    
+    expect do
+      subject.read
+    end.to raise_error(IOError)
   end
   
   it "test_full_read_from_several_ios" do
