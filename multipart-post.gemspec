@@ -15,6 +15,11 @@ Gem::Specification.new do |spec|
 	
 	spec.homepage = "https://github.com/socketry/multipart-post"
 	
+	spec.metadata = {
+		"documentation_uri" => "https://socketry.github.io/multipart-post/",
+		"source_code_uri" => "https://github.com/socketry/multipart-post.git",
+	}
+	
 	spec.files = Dir['{lib}/**/*', '*.md', base: __dir__]
 	
 	spec.required_ruby_version = ">= 2.5.0"
