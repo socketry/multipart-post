@@ -11,7 +11,7 @@
 # Copyright, 2019, by Patrick Davey.
 
 require 'multipart/post/parts'
-require 'multipart/post/composite_read_io'
+require 'multipart/post/upload_io'
 require 'stringio'
 require 'tempfile'
 

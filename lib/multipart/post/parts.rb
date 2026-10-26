@@ -19,6 +19,8 @@
 # Copyright, 2019, by Patrick Davey.
 # Copyright, 2021-2024, by Samuel Williams.
 
+require_relative 'composite_read_io'
+
 require 'stringio'
 
 module Multipart

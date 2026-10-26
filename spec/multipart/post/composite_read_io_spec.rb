@@ -11,6 +11,7 @@
 # Copyright, 2021, by Lewis Cowles.
 
 require 'multipart/post/composite_read_io'
+require 'multipart/post/upload_io'
 require 'stringio'
 require 'timeout'
 
