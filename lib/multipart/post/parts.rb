@@ -90,7 +90,18 @@ module Multipart
         # @param io [IO]
         # @param headers [Hash]
         def initialize(boundary, name, io, headers = {})
-          file_length = io.respond_to?(:length) ?  io.length : File.size(io.local_path)
+          file_length = io.length if io.respond_to?(:length)
+          file_length ||= io.size if io.respond_to?(:size)
+
+          if !file_length && io.respond_to?(:local_path)
+            path = io.local_path
+            file_length = File.size(path) if path && File.file?(path)
+          end
+
+          unless file_length
+            raise ArgumentError, "Unable to determine the length of file part #{name.to_s.inspect}!"
+          end
+
           @head = build_head(boundary, name, io.original_filename, io.content_type, file_length,
                              io.respond_to?(:opts) ? io.opts.merge(headers) : headers)
           @foot = "\r\n"

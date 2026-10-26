@@ -12,8 +12,8 @@ module Multipart
       # Create an upload IO suitable for including in the params hash of a
       # Net::HTTP::Post::Multipart.
       #
-      # Can take two forms. The first accepts a filename and content type, and
-      # opens the file for reading (to be closed by finalizer).
+      # Can take two forms. The first accepts a filename (a String or Pathname) and
+      # content type, and opens the file for reading (to be closed by finalizer).
       #
       # The second accepts an already-open IO, but also requires a third argument,
       # the filename from which it was opened (particularly useful/recommended if
@@ -26,13 +26,13 @@ module Multipart
       def initialize(filename_or_io, content_type, filename = nil, opts = {})
         io = filename_or_io
         local_path = ""
-        if io.respond_to? :read
-          # in Ruby 1.9.2, StringIOs no longer respond to path
-          # (since they respond to :length, so we don't need their local path, see parts.rb:41)
+        # Pathname#read always reads from the start of the file, so open it like a filename.
+        if io.respond_to?(:read) && !(defined?(::Pathname) && io.is_a?(::Pathname))
+          # IOs without a path, like StringIO, are sized by FilePart using #length or #size.
           local_path = filename_or_io.respond_to?(:path) ? filename_or_io.path : "local.path"
         else
           io = File.open(filename_or_io)
-          local_path = filename_or_io
+          local_path = io.path
         end
         filename ||= local_path
 

@@ -14,6 +14,7 @@ require 'multipart/post/parts'
 require 'multipart/post/composite_read_io'
 require 'stringio'
 require 'tempfile'
+require 'pathname'
 
 module AssertPartLength
   def assert_part_length(part)
@@ -81,6 +82,84 @@ module Multipart
       it "test_content_id" do
         part = Parts::FilePart.new("boundary", "afile", UploadIO.new(TEMP_FILE, "text/plain"), { "Content-ID" => "id" })
         expect(part.to_io.read).to match(/Content-ID: id/)
+      end
+
+      it "test_io_with_only_size" do
+        io = Class.new do
+          def initialize(string)
+            @io = StringIO.new(string)
+          end
+
+          def read(*args)
+            @io.read(*args)
+          end
+
+          def size
+            @io.size
+          end
+        end.new("1234567890")
+
+        assert_part_length Parts::FilePart.new("boundary", "afile", UploadIO.new(io, "text/plain", "afile.txt"))
+      end
+
+      it "test_file_deleted_after_open" do
+        file = File.open(TEMP_FILE)
+        File.delete(TEMP_FILE)
+        assert_part_length Parts::FilePart.new("boundary", "afile", UploadIO.new(file, "text/plain"))
+      ensure
+        file&.close
+      end
+
+      it "test_io_with_nil_size_and_path" do
+        io = Class.new do
+          attr :path
+
+          def initialize(path)
+            @path = path
+            @io = StringIO.new(File.read(path))
+          end
+
+          def read(*args)
+            @io.read(*args)
+          end
+
+          def size
+            nil
+          end
+        end.new(TEMP_FILE)
+
+        assert_part_length Parts::FilePart.new("boundary", "afile", UploadIO.new(io, "text/plain"))
+      end
+
+      it "test_pathname" do
+        io = UploadIO.new(Pathname.new(TEMP_FILE), "text/plain")
+        part = Parts::FilePart.new("boundary", "afile", io)
+
+        body = String.new
+        while chunk = part.to_io.read(4)
+          body << chunk
+          break if body.bytesize > part.length
+        end
+
+        expect(io.original_filename).to be == TEMP_FILE
+        expect(io.local_path).to be == TEMP_FILE
+        expect(body.bytesize).to be == part.length
+      end
+
+      it "test_io_with_unknown_size" do
+        io = Class.new do
+          def read(*args)
+            nil
+          end
+
+          def size
+            nil
+          end
+        end.new
+
+        expect do
+          Parts::FilePart.new("boundary", "afile", UploadIO.new(io, "text/plain", "afile.txt"))
+        end.to raise_error(ArgumentError, /afile/)
       end
     end
 
