@@ -14,8 +14,6 @@ require 'multipart/post/composite_read_io'
 require 'stringio'
 require 'timeout'
 
-MULTIBYTE = File.dirname(__FILE__) + '/../../fixtures/multibyte.txt'
-
 RSpec.shared_context "composite io" do
   it "can close all the ios" do
     subject.close
